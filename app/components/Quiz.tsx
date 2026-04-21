@@ -4,8 +4,7 @@ import { useState } from 'react';
 import type { Answer, FacetState, Question } from '@/lib/types';
 import { questions } from '@/lib/data/questions';
 import { flavorProfiles } from '@/lib/data/mappings';
-import { Header } from './Header';
-import { ProgressBar } from './ProgressBar';
+import { SiteChrome } from './SiteChrome';
 import { QuizQuestion } from './QuizQuestion';
 
 interface QuizProps {
@@ -74,8 +73,7 @@ export function Quiz({ onComplete }: QuizProps) {
 
   return (
     <>
-      <Header />
-      <ProgressBar fraction={fraction} />
+      <SiteChrome fraction={fraction} />
       <QuizQuestion question={currentQuestion} onAnswer={handleAnswer} />
     </>
   );

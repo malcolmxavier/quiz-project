@@ -38,7 +38,9 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body className="flex flex-col">
+        {children}
+      </body>
     </html>
   );
 }

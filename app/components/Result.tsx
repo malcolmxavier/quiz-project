@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { FacetState } from '@/lib/types';
 import { recommend } from '@/lib/recommender';
-import { Header } from './Header';
-import { ProgressBar } from './ProgressBar';
+import { SiteChrome } from './SiteChrome';
 import { FacetEditor } from './FacetEditor';
+import { Footer } from './Footer';
 
 interface ResultProps {
   /** Drives the displayed recommendation. Only changes when user hits Apply. */
@@ -60,8 +60,8 @@ export function Result({
 
   return (
     <>
-      <Header meta="Your Ritual" />
-      <ProgressBar fraction={1} />
+      <SiteChrome />
+      <div className="flex-1">
 
       {/* ── Hero ──────────────────────────── */}
       <section className="mx-auto max-w-[560px] px-7 pt-9 pb-4 md:max-w-[880px] md:px-10 md:pt-12 md:pb-7 lg:max-w-[1024px]">
@@ -205,6 +205,8 @@ export function Result({
           </div>
         }
       />
+      </div>
+      <Footer />
     </>
   );
 }
