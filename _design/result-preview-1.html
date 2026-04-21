@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Result Surface — Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#120a06;
+    --bg-2:#1f120b;
+    --surface:#261610;
+    --cream:#f5e6d0;
+    --cream-muted:#c9b399;
+    --cream-dim:#8a7864;
+    --gold:#d4a574;
+    --gold-bright:#e8bf88;
+    --matcha:#009966;
+    --matcha-bright:#00b377;
+    --matcha-deep:#00734d;
+    --line:#3a241a;
+    --line-bright:#5a3a28;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--cream);
+    min-height:100vh;
+    background-image:
+      radial-gradient(circle at 8% 88%, rgba(212,165,116,0.10), transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(0,153,102,0.28), transparent 48%),
+      radial-gradient(circle at 50% 50%, rgba(0,153,102,0.06), transparent 60%);
+    background-attachment:fixed;
+  }
+  header{
+    padding:22px 28px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:24px;
+  }
+  .brand{display:flex;flex-direction:column;gap:6px}
+  .wordmark{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:0.02em;
+    color:var(--cream);
+    text-transform:uppercase;
+    line-height:1;
+  }
+  .tagline{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:15px;
+    color:var(--cream-muted);
+  }
+  .meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--gold);
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    padding-top:2px;
+  }
+  .progress-track{
+    height:3px;
+    background:var(--line);
+    position:relative;
+  }
+  .progress-fill{
+    position:absolute;
+    top:0;left:0;
+    height:3px;
+    width:100%;
+    background:linear-gradient(90deg, var(--gold) 0%, var(--matcha) 100%);
+    box-shadow:0 0 14px rgba(212,165,116,0.35), 0 0 18px rgba(0,153,102,0.7);
+  }
+
+  /* ─── Hero ────────────────────────────────────────────── */
+  .hero{
+    padding:36px 28px 16px;
+    max-width:560px;
+    margin:0 auto;
+  }
+  .chapter{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--gold);
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    margin:0 0 20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .chapter::before{
+    content:"";display:inline-block;height:1px;width:36px;background:var(--line-bright);
+  }
+  .chapter::after{
+    content:"";display:inline-block;height:1px;flex:1;background:linear-gradient(90deg, var(--line-bright), transparent);
+  }
+  .archetype{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:54px;
+    line-height:1.0;
+    letter-spacing:-0.035em;
+    margin:0 0 14px;
+    color:var(--cream);
+  }
+  .descriptor{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:19px;
+    line-height:1.4;
+    letter-spacing:-0.005em;
+    color:var(--cream-muted);
+    margin:0 0 18px;
+    max-width:480px;
+  }
+
+  /* ─── Glass card base ─────────────────────────────────── */
+  .card{
+    border:1px solid rgba(245,230,208,0.10);
+    border-radius:22px;
+    background:rgba(255,255,255,0.035);
+    backdrop-filter:blur(22px) saturate(1.35);
+    -webkit-backdrop-filter:blur(22px) saturate(1.35);
+    padding:18px 20px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.09),
+      inset 0 -1px 0 rgba(0,0,0,0.22),
+      0 8px 24px -14px rgba(0,0,0,0.7);
+  }
+  /* content inside cards owns its own rhythm; first child resets top, last child resets bottom */
+  .card > :first-child{margin-top:0}
+  .card > :last-child{margin-bottom:0}
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:18%;
+    right:18%;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    pointer-events:none;
+  }
+
+  /* ─── Drink card ──────────────────────────────────────── */
+  .drink-card{
+    margin-bottom:12px;
+  }
+  .card-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--gold);
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    margin:0 0 6px;
+  }
+  .drink-name{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:32px;
+    letter-spacing:-0.02em;
+    line-height:1.05;
+    margin:0 0 14px;
+    color:var(--cream);
+  }
+  .drink-rows{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    column-gap:24px;
+    row-gap:8px;
+  }
+  .drink-rows dt{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--cream-dim);
+    margin:0;
+  }
+  .drink-rows dd{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:15px;
+    color:var(--cream);
+    margin:0;
+  }
+
+  /* ─── Discount / gift card ────────────────────────────── */
+  .gift-card{
+    margin-bottom:12px;
+    background:
+      linear-gradient(135deg, rgba(0,153,102,0.14), rgba(212,165,116,0.08) 60%, transparent),
+      rgba(255,255,255,0.035);
+    border-color:rgba(0,153,102,0.3);
+  }
+  .gift-card .card-label{color:var(--matcha-bright)}
+  .gift-code-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:0 0 10px;
+  }
+  .gift-code{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:500;
+    font-size:14px;
+    letter-spacing:0.04em;
+    color:var(--cream);
+    flex:1;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .copy-btn{
+    background:rgba(245,230,208,0.06);
+    border:1px solid rgba(245,230,208,0.15);
+    color:var(--cream);
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    padding:7px 11px;
+    border-radius:10px;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .copy-btn:hover{background:rgba(245,230,208,0.12);border-color:var(--gold)}
+  .gift-offer{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:16px;
+    line-height:1.4;
+    color:var(--cream);
+    margin:0;
+  }
+  .gift-offer .fine{
+    display:block;
+    font-family:'Space Grotesk',sans-serif;
+    font-style:normal;
+    font-size:11px;
+    letter-spacing:0.04em;
+    color:var(--cream-dim);
+    margin-top:6px;
+  }
+
+  /* ─── Share row ───────────────────────────────────────── */
+  .share-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:0;
+  }
+  .share-btn{
+    flex:1;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:0.04em;
+    padding:14px 16px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.035);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(245,230,208,0.12);
+    color:var(--cream);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .share-btn:hover{border-color:var(--gold);background:rgba(255,255,255,0.06)}
+  .share-btn.primary{
+    background:rgba(212,165,116,0.18);
+    border-color:rgba(212,165,116,0.45);
+  }
+  .share-btn.primary:hover{background:rgba(212,165,116,0.25)}
+
+  /* ─── Facet editor section ────────────────────────────── */
+  .editor-wrap{
+    max-width:560px;
+    margin:0 auto;
+    padding:0 28px 80px;
+  }
+  /* Standalone section divider — lives between sections, owns its own horizontal alignment + vertical spacing */
+  .section-divider{
+    height:1px;
+    background:var(--line);
+    border:0;
+    padding:0;
+    margin:0 auto 18px;
+    max-width:504px;              /* 560 (hero max-width) − 2×28 (hero horizontal padding) */
+    width:calc(100% - 56px);      /* mirrors hero content-width on narrow viewports */
+  }
+  .editor-intro{
+    margin-bottom:18px;
+  }
+  .editor-intro .card-label{margin-bottom:6px}
+  .editor-intro h2{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:28px;
+    letter-spacing:-0.01em;
+    margin:0 0 8px;
+    color:var(--cream);
+  }
+  .editor-intro p{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:14px;
+    line-height:1.5;
+    color:var(--cream-muted);
+    margin:0;
+    max-width:440px;
+  }
+  .facet{
+    margin-bottom:16px;
+  }
+  .facet-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--cream-dim);
+    margin:0 0 10px;
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  .facet-label .value{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:12px;
+    color:var(--gold);
+    letter-spacing:0;
+    text-transform:none;
+  }
+  .segments{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .seg{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:13px;
+    padding:10px 14px;
+    border-radius:12px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(245,230,208,0.10);
+    color:var(--cream-muted);
+    cursor:pointer;
+    transition:all .18s ease;
+  }
+  .seg:hover{color:var(--cream);border-color:rgba(245,230,208,0.25)}
+  .seg.active{
+    background:rgba(212,165,116,0.16);
+    border-color:rgba(212,165,116,0.5);
+    color:var(--gold-bright);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  @media (min-width:820px){
+    .hero{padding:48px 40px 28px;max-width:640px}
+    .editor-wrap{max-width:640px;padding-bottom:120px}
+    .archetype{font-size:72px}
+    .section-divider{
+      max-width:560px;              /* 640 − 2×40 */
+      width:calc(100% - 80px);
+    }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="wordmark">BASECAMP</div>
+      <div class="tagline">Find your ritual</div>
+    </div>
+    <div class="meta">Your Ritual</div>
+  </header>
+  <div class="progress-track"><div class="progress-fill"></div></div>
+
+  <section class="hero">
+    <h1 class="archetype">The Slow Burn</h1>
+    <p class="descriptor">Quiet energy. Doesn't peak — just holds, all day long.</p>
+
+    <!-- Drink card -->
+    <div class="card drink-card">
+      <p class="card-label">Today's Pour</p>
+      <h2 class="drink-name">Cold Brew</h2>
+      <dl class="drink-rows">
+        <dt>Bean</dt>      <dd>Brazilian Cerrado (single-origin)</dd>
+        <dt>Roast</dt>     <dd>Medium</dd>
+        <dt>Temp</dt>      <dd>Iced</dd>
+        <dt>Milk</dt>      <dd>None — served black</dd>
+        <dt>Sweet</dt>     <dd>None</dd>
+        <dt>Notes</dt>     <dd>Chocolate, cocoa, smooth finish</dd>
+      </dl>
+    </div>
+
+    <!-- Gift / discount card -->
+    <div class="card gift-card">
+      <p class="card-label">Redeem Your Gift</p>
+      <div class="gift-code-row">
+        <span class="gift-code">RITUAL-SLOWBURN-4K7P</span>
+        <button class="copy-btn">Copy</button>
+      </div>
+      <p class="gift-offer">
+        20% off your first drink &mdash; any drink, any Basecamp.
+        <span class="fine">One-time use. Expires in 14 days.</span>
+      </p>
+    </div>
+
+    <!-- Share actions -->
+    <div class="share-row">
+      <button class="share-btn primary">Share your ritual</button>
+      <button class="share-btn">Share quiz link</button>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- Facet editor (peek + full) -->
+  <section class="editor-wrap">
+    <div class="editor-intro">
+      <p class="card-label">Tune Your Ritual</p>
+      <h2>Not quite right?</h2>
+      <p>Adjust any facet below — we'll find your next cup, live.</p>
+    </div>
+
+    <div class="facet">
+      <p class="facet-label">Coffee vs Tea <span class="value">Coffee</span></p>
+      <div class="segments">
+        <div class="seg active">Coffee</div>
+        <div class="seg">Tea-based</div>
+      </div>
+    </div>
+
+    <div class="facet">
+      <p class="facet-label">Temperature <span class="value">Iced</span></p>
+      <div class="segments">
+        <div class="seg">Hot</div>
+        <div class="seg active">Iced</div>
+      </div>
+    </div>
+
+    <div class="facet">
+      <p class="facet-label">Strength <span class="value">Bold</span></p>
+      <div class="segments">
+        <div class="seg">Light</div>
+        <div class="seg">Medium</div>
+        <div class="seg active">Bold</div>
+        <div class="seg">Extra-bold</div>
+      </div>
+    </div>
+
+    <div class="facet">
+      <p class="facet-label">Milk <span class="value">Black</span></p>
+      <div class="segments">
+        <div class="seg active">Black</div>
+        <div class="seg">Whole</div>
+        <div class="seg">2%</div>
+        <div class="seg">Oat</div>
+        <div class="seg">Almond</div>
+        <div class="seg">Soy</div>
+      </div>
+    </div>
+
+    <div class="facet">
+      <p class="facet-label">Sweetness <span class="value">None</span></p>
+      <div class="segments">
+        <div class="seg active">None</div>
+        <div class="seg">Touch</div>
+        <div class="seg">Sweet</div>
+        <div class="seg">Indulgent</div>
+      </div>
+    </div>
+
+    <div class="facet">
+      <p class="facet-label">Flavor Note <span class="value">Chocolate</span></p>
+      <div class="segments">
+        <div class="seg">Fruity</div>
+        <div class="seg">Floral</div>
+        <div class="seg active">Chocolate</div>
+        <div class="seg">Nutty</div>
+        <div class="seg">Caramel</div>
+        <div class="seg">Spicy</div>
+        <div class="seg">Earthy</div>
+      </div>
+    </div>
+
+    <div class="facet">
+      <p class="facet-label">Roast <span class="value">Medium</span></p>
+      <div class="segments">
+        <div class="seg">Light</div>
+        <div class="seg active">Medium</div>
+        <div class="seg">Dark</div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

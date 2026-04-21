@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Style 2 — Minimal & Editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#ffffff;
+    --ink:#0f0f0f;
+    --ink-2:#3a3a3a;
+    --muted:#737373;
+    --line:#e5e5e5;
+    --line-2:#f0f0f0;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  header{
+    border-bottom:1px solid var(--line);
+    padding:22px 48px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .wordmark{
+    font-family:'Playfair Display',serif;
+    font-weight:500;
+    font-style:italic;
+    font-size:22px;
+    letter-spacing:-0.01em;
+  }
+  .meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+  }
+  main{
+    flex:1;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+  }
+  .col-left{
+    padding:80px 64px;
+    border-right:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .col-right{
+    padding:80px 64px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .chapter{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.22em;
+    color:var(--muted);
+    margin:0 0 32px;
+  }
+  h1{
+    font-family:'Playfair Display',serif;
+    font-weight:400;
+    font-size:52px;
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    margin:0 0 28px;
+    color:var(--ink);
+  }
+  h1 em{font-style:italic;font-weight:400;color:var(--ink-2)}
+  .sub{
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:18px;
+    line-height:1.6;
+    color:var(--ink-2);
+    margin:0;
+    max-width:420px;
+  }
+  .answers{display:flex;flex-direction:column;gap:0}
+  .answer{
+    display:flex;
+    align-items:baseline;
+    gap:24px;
+    padding:22px 4px;
+    border-bottom:1px solid var(--line);
+    cursor:pointer;
+    color:var(--ink);
+    font-size:20px;
+    font-family:'Playfair Display',serif;
+    font-weight:400;
+    transition:padding .2s ease;
+  }
+  .answer:first-child{border-top:1px solid var(--line)}
+  .answer:hover{padding-left:16px;color:var(--ink)}
+  .answer:hover .num{color:var(--ink)}
+  .num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    flex-shrink:0;
+    width:32px;
+    letter-spacing:0.08em;
+  }
+  footer{
+    border-top:1px solid var(--line);
+    padding:22px 48px;
+    display:flex;
+    justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+  }
+  @media (max-width: 900px){
+    main{grid-template-columns:1fr}
+    .col-left,.col-right{padding:48px 32px;border:none}
+    .col-left{border-bottom:1px solid var(--line)}
+    h1{font-size:40px}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wordmark">Basecamp</div>
+    <div class="meta">01 / 06 &middot; Strength</div>
+  </header>
+  <main>
+    <div class="col-left">
+      <p class="chapter">Chapter One</p>
+      <h1>Your coffee should <em>wake you up</em> like&hellip;</h1>
+      <p class="sub">Some mornings ask for a whisper. Others, a reckoning. Tell us which one is yours.</p>
+    </div>
+    <div class="col-right">
+      <div class="answers">
+        <div class="answer"><span class="num">I.</span>A gentle nudge from a friend</div>
+        <div class="answer"><span class="num">II.</span>A good playlist</div>
+        <div class="answer"><span class="num">III.</span>An alarm clock</div>
+        <div class="answer"><span class="num">IV.</span>A cold plunge</div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div>Basecamp Coffee</div>
+    <div>Find Your Cup</div>
+  </footer>
+</body>
+</html>

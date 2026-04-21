@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Style 5 — Remix (Bold & Dark + Matcha + Ritual)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#120a06;
+    --bg-2:#1f120b;
+    --surface:#261610;
+    --cream:#f5e6d0;
+    --cream-muted:#c9b399;
+    --gold:#d4a574;
+    --gold-bright:#e8bf88;
+    --matcha:#009966;
+    --matcha-bright:#00b377;
+    --matcha-deep:#00734d;
+    --line:#3a241a;
+    --line-bright:#5a3a28;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--cream);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background-image:
+      radial-gradient(circle at 8% 88%, rgba(212,165,116,0.10), transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(0,153,102,0.28), transparent 48%),
+      radial-gradient(circle at 50% 50%, rgba(0,153,102,0.06), transparent 60%);
+  }
+  header{
+    padding:22px 40px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:24px;
+  }
+  .brand{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .wordmark{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:0.02em;
+    color:var(--cream);
+    text-transform:uppercase;
+    line-height:1;
+  }
+  .tagline{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:15px;
+    color:var(--cream-muted);
+    letter-spacing:0.01em;
+  }
+  .meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--gold);
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    padding-top:2px;
+  }
+  .progress-track{
+    height:3px;
+    background:var(--line);
+    position:relative;
+  }
+  .progress-fill{
+    position:absolute;
+    top:0;left:0;
+    height:3px;
+    width:16.66%;
+    background:linear-gradient(90deg, var(--gold) 0%, var(--matcha) 100%);
+    box-shadow:0 0 14px rgba(212,165,116,0.35), 0 0 18px rgba(0,153,102,0.7);
+  }
+  main{
+    flex:1;
+    padding:80px 40px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .inner{
+    width:100%;
+    max-width:780px;
+  }
+  .chapter{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--gold);
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    margin:0 0 28px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .chapter::before{
+    content:"";
+    display:inline-block;
+    height:1px;
+    width:48px;
+    background:var(--line-bright);
+  }
+  .chapter::after{
+    content:"";
+    display:inline-block;
+    height:1px;
+    flex:1;
+    background:linear-gradient(90deg, var(--line-bright), transparent);
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:64px;
+    line-height:1.02;
+    letter-spacing:-0.03em;
+    margin:0 0 48px;
+    color:var(--cream);
+    text-align:left;
+  }
+  h1 .accent{color:var(--gold)}
+  .answers{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .answer{
+    padding:26px 28px;
+    border:1px solid rgba(245,230,208,0.10);
+    border-radius:22px;
+    background:rgba(255,255,255,0.035);
+    backdrop-filter:blur(22px) saturate(1.35);
+    -webkit-backdrop-filter:blur(22px) saturate(1.35);
+    cursor:pointer;
+    transition:
+      transform .35s cubic-bezier(.2,.8,.2,1),
+      background .3s ease,
+      border-color .3s ease,
+      box-shadow .3s ease;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    min-height:124px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.09),
+      inset 0 -1px 0 rgba(0,0,0,0.22),
+      0 8px 24px -14px rgba(0,0,0,0.7);
+  }
+  .answer::before{
+    /* top edge light pickup — Liquid Glass sheen */
+    content:"";
+    position:absolute;
+    top:0;
+    left:18%;
+    right:18%;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    pointer-events:none;
+  }
+  .answer::after{
+    /* environmental color pickup — gold → pine wash, echoes progress bar */
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    pointer-events:none;
+    background:linear-gradient(
+      100deg,
+      rgba(212,165,116,0.16) 0%,
+      transparent 45%,
+      rgba(0,153,102,0.18) 100%
+    );
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .answer:hover{
+    border-color:rgba(212,165,116,0.45);
+    background:rgba(255,255,255,0.065);
+    transform:translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.16),
+      inset 0 -1px 0 rgba(0,0,0,0.28),
+      0 16px 36px -14px rgba(0,0,0,0.55),
+      0 0 44px -8px rgba(0,153,102,0.22),
+      0 0 0 1px rgba(212,165,116,0.28);
+  }
+  .answer:hover::after{opacity:1}
+  .answer .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--gold);
+    letter-spacing:0.14em;
+    position:relative;
+    z-index:1;
+  }
+  .answer .text{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:23px;
+    line-height:1.32;
+    letter-spacing:-0.005em;
+    color:var(--cream);
+    position:relative;
+    z-index:1;
+  }
+  @media (max-width:820px){
+    h1{font-size:44px}
+    .answers{grid-template-columns:1fr}
+    header{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="wordmark">BASECAMP</div>
+      <div class="tagline">Find your ritual</div>
+    </div>
+    <div class="meta">Question 01 &nbsp;/&nbsp; 06</div>
+  </header>
+  <div class="progress-track"><div class="progress-fill"></div></div>
+  <main>
+    <div class="inner">
+      <p class="chapter">Strength</p>
+      <h1>Your coffee should wake you up like<span class="accent">&hellip;</span></h1>
+      <div class="answers">
+        <div class="answer"><span class="num">01</span><span class="text">A gentle nudge from a friend</span></div>
+        <div class="answer"><span class="num">02</span><span class="text">A good playlist</span></div>
+        <div class="answer"><span class="num">03</span><span class="text">An alarm clock</span></div>
+        <div class="answer"><span class="num">04</span><span class="text">A cold plunge</span></div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

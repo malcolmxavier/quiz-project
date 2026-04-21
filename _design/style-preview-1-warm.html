@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Style 1 — Warm & Cozy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream:#fdf8f0;
+    --cream-dark:#f5ebda;
+    --paper:#ffffff;
+    --ink:#1f2621;
+    --ink-muted:#6b7670;
+    --green:#2d4a3e;
+    --green-dark:#1e342b;
+    --wood:#8b5a3c;
+    --honey:#d4a574;
+    --line:#e8ddc9;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 20px 48px;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(212,165,116,0.08), transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(45,74,62,0.06), transparent 45%);
+  }
+  header{
+    width:100%;
+    max-width:620px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+  }
+  .wordmark{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:-0.01em;
+    color:var(--green);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .wordmark::before{
+    content:"";
+    display:inline-block;
+    width:10px;height:10px;border-radius:50%;
+    background:var(--honey);
+  }
+  .progress{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    color:var(--ink-muted);
+    letter-spacing:0.04em;
+  }
+  .progress-bar{
+    width:100%;
+    max-width:620px;
+    height:4px;
+    background:var(--cream-dark);
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:48px;
+  }
+  .progress-bar > span{
+    display:block;
+    width:16.66%;
+    height:100%;
+    background:linear-gradient(90deg,var(--green),var(--honey));
+    border-radius:999px;
+  }
+  .card{
+    width:100%;
+    max-width:620px;
+    background:var(--paper);
+    border-radius:24px;
+    padding:44px 40px;
+    box-shadow:0 10px 40px -20px rgba(45,74,62,0.25), 0 1px 0 var(--line);
+  }
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    color:var(--wood);
+    margin:0 0 12px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:34px;
+    line-height:1.2;
+    letter-spacing:-0.02em;
+    margin:0 0 32px;
+    color:var(--ink);
+  }
+  .answers{display:flex;flex-direction:column;gap:12px}
+  .answer{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:18px 22px;
+    border:1.5px solid var(--line);
+    border-radius:16px;
+    cursor:pointer;
+    background:var(--cream);
+    transition:all .15s ease;
+    font-size:16px;
+    font-weight:500;
+    color:var(--ink);
+  }
+  .answer:hover{
+    background:var(--paper);
+    border-color:var(--green);
+    transform:translateY(-1px);
+    box-shadow:0 6px 18px -12px rgba(45,74,62,0.4);
+  }
+  .dot{
+    width:12px;height:12px;border-radius:50%;
+    border:1.5px solid var(--green);
+    flex-shrink:0;
+  }
+  .answer:hover .dot{background:var(--green)}
+  footer{
+    margin-top:40px;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    color:var(--ink-muted);
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wordmark">Basecamp</div>
+    <div class="progress">Question 1 of 6</div>
+  </header>
+  <div class="progress-bar"><span></span></div>
+  <main class="card">
+    <p class="eyebrow">A Quick Ritual</p>
+    <h1>Your coffee should wake you up like&hellip;</h1>
+    <div class="answers">
+      <div class="answer"><div class="dot"></div>A gentle nudge from a friend</div>
+      <div class="answer"><div class="dot"></div>A good playlist</div>
+      <div class="answer"><div class="dot"></div>An alarm clock</div>
+      <div class="answer"><div class="dot"></div>A cold plunge</div>
+    </div>
+  </main>
+  <footer>Find your coffee ritual &middot; Basecamp Coffee</footer>
+</body>
+</html>

@@ -1,26 +1,194 @@
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────────────────
+   Design tokens — single source of truth for colors,
+   typography, spacing, and the Liquid Glass surface.
+   Locked in /_design/REQUIREMENTS.md.
+   ────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base & surfaces */
+  --bg: #120a06;
+  --bg-2: #1f120b;
+  --surface: #261610;
+
+  /* Text */
+  --cream: #f5e6d0;
+  --cream-muted: #c9b399;
+  --cream-dim: #8a7864;
+
+  /* Accents */
+  --gold: #d4a574;
+  --gold-bright: #e8bf88;
+  --matcha: #009966;       /* 100% saturation pine */
+  --matcha-bright: #00b377;
+  --matcha-deep: #00734d;
+
+  /* Rules & dividers */
+  --line: #3a241a;
+  --line-bright: #5a3a28;
+
+  /* Radius */
+  --radius-card: 22px;
+  --radius-pill: 12px;
+
+  /* Shadows (shared glass stack) */
+  --glass-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.09),
+    inset 0 -1px 0 rgba(0,0,0,0.22),
+    0 8px 24px -14px rgba(0,0,0,0.7);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-space-grotesk);
+  --font-serif: var(--font-fraunces);
+  --font-mono: var(--font-jetbrains-mono);
+  --color-bg: var(--bg);
+  --color-cream: var(--cream);
+  --color-cream-muted: var(--cream-muted);
+  --color-gold: var(--gold);
+  --color-matcha: var(--matcha);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ──────────────────────────────────────────────────────────
+   Base
+   ────────────────────────────────────────────────────────── */
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--cream);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 8% 88%, rgba(212,165,116,0.10), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(0,153,102,0.28), transparent 48%),
+    radial-gradient(circle at 50% 50%, rgba(0,153,102,0.06), transparent 60%);
+  background-attachment: fixed;
+}
+
+* { box-sizing: border-box; }
+
+/* ──────────────────────────────────────────────────────────
+   Glass primitive — used by card, answer, gift, share buttons
+   ────────────────────────────────────────────────────────── */
+.glass {
+  border: 1px solid rgba(245,230,208,0.10);
+  border-radius: var(--radius-card);
+  background: rgba(255,255,255,0.035);
+  backdrop-filter: blur(22px) saturate(1.35);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--glass-shadow);
+}
+
+/* Top-edge sheen on every glass surface */
+.glass::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18%;
+  right: 18%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  pointer-events: none;
+}
+
+/* Cards enforce their own boundaries; subcomponents own their margins */
+.glass > :first-child { margin-top: 0; }
+.glass > :last-child { margin-bottom: 0; }
+
+/* ──────────────────────────────────────────────────────────
+   Answer card (Liquid Glass with hover interaction)
+   ────────────────────────────────────────────────────────── */
+.answer-card {
+  padding: 26px 28px;
+  min-height: 124px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition:
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    background .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+  text-align: left;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+}
+
+/* Environmental color pickup on hover */
+.answer-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgba(212,165,116,0.16) 0%,
+    transparent 45%,
+    rgba(0,153,102,0.18) 100%
+  );
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.answer-card:hover {
+  border-color: rgba(212,165,116,0.45);
+  background: rgba(255,255,255,0.065);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.16),
+    inset 0 -1px 0 rgba(0,0,0,0.28),
+    0 16px 36px -14px rgba(0,0,0,0.55),
+    0 0 44px -8px rgba(0,153,102,0.22),
+    0 0 0 1px rgba(212,165,116,0.28);
+}
+
+.answer-card:hover::after { opacity: 1; }
+
+/* Progress bar */
+.progress-track {
+  height: 3px;
+  background: var(--line);
+  position: relative;
+}
+.progress-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--matcha) 100%);
+  box-shadow: 0 0 14px rgba(212,165,116,0.35), 0 0 18px rgba(0,153,102,0.7);
+  transition: width .4s cubic-bezier(.2,.8,.2,1);
+}
+
+/* Standalone section divider */
+.section-divider {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  padding: 0;
+  margin: 0 auto 18px;
+  max-width: 504px;
+  width: calc(100% - 56px);
+}
+
+/* Section divider at desktop breakpoint */
+@media (min-width: 820px) {
+  .section-divider {
+    max-width: 560px;
+    width: calc(100% - 80px);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Gift card variant (gold→pine wash on the base) */
+.gift-card {
+  background:
+    linear-gradient(135deg, rgba(0,153,102,0.14), rgba(212,165,116,0.08) 60%, transparent),
+    rgba(255,255,255,0.035);
+  border-color: rgba(0,153,102,0.3);
 }
