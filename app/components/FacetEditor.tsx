@@ -131,9 +131,9 @@ export function FacetEditor({ state, onChange, introSlot, footerSlot }: FacetEdi
         selected={state.roast}
         onSelect={(v) => onChange({ roast: v as Roast })}
       />
+      </div>
 
       {footerSlot}
-      </div>
     </section>
   );
 }

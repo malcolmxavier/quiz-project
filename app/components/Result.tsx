@@ -188,7 +188,7 @@ export function Result({
           </div>
         }
         footerSlot={
-          <div className="mt-4">
+          <div className="mt-4 md:max-w-[640px] md:mx-auto">
             <button
               type="button"
               onClick={onApply}
