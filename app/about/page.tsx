@@ -12,9 +12,15 @@ export default function AboutPage() {
     <>
       <SiteChrome />
       <div className="flex-1">
-        <section className="mx-auto max-w-[560px] px-7 pt-9 pb-12 md:max-w-[880px] md:px-10 md:pt-12 md:pb-20 lg:max-w-[1024px]">
-          <h1 className="m-0 mb-8 md:mb-10 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--cream)]">
+        <section className="mx-auto max-w-[560px] px-7 pt-9 pb-12 md:max-w-[880px] md:px-10 md:pt-8 md:pb-8 lg:max-w-[1024px]">
+          <p
+            className="m-0 mb-3 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
+            style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+          >
             About
+          </p>
+          <h1 className="m-0 mb-8 md:mb-6 font-medium text-[54px] md:text-[64px] lg:text-[72px] leading-none tracking-[-0.035em] text-[var(--cream)]">
+            Malcolm Xavier
           </h1>
 
           <div className="md:grid md:grid-cols-[280px_1fr] md:gap-10 lg:grid-cols-[320px_1fr] lg:gap-12 md:items-start">
@@ -56,7 +62,7 @@ export default function AboutPage() {
 
               {/* Tablet/desktop: inline pipe-separated */}
               <p
-                className="hidden md:block m-0 mb-6 text-[19px] leading-[1.4] tracking-[-0.005em] text-[var(--cream)]"
+                className="hidden md:block m-0 mb-5 text-[19px] leading-[1.4] tracking-[-0.005em] text-[var(--cream)]"
                 style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
               >
                 Senior Product Manager <span className="text-[var(--cream-dim)] not-italic">|</span>{' '}
@@ -65,25 +71,38 @@ export default function AboutPage() {
                 Media, Publishing, and Streaming{' '}
                 <span className="text-[var(--cream-dim)] not-italic">|</span> AI-Native
               </p>
-              <p className="m-0 mb-5 text-[17px] leading-[1.6] text-[var(--cream-muted)]">
-                Senior Product Manager with 7+ years scaling growth, experimentation, and data
-                platforms across consumer and B2B SaaS products. Built and operated growth
-                infrastructure for 22M+ users across 40+ brands at America&apos;s largest
-                publisher, driving 33% YoY email revenue growth and establishing a $2.2M+ annual
+
+              {/* Mobile socials: inline row above the paragraphs */}
+              <div className="md:hidden flex flex-row gap-3 mb-6">
+                <SocialLink
+                  compact
+                  href="https://www.linkedin.com/in/malxavi/"
+                  label="LinkedIn"
+                  handle="malxavi"
+                  icon={<LinkedInIcon />}
+                />
+                <SocialLink
+                  compact
+                  href="https://github.com/malcolmxavier"
+                  label="GitHub"
+                  handle="malcolmxavier"
+                  icon={<GitHubIcon />}
+                />
+              </div>
+
+              <p className="m-0 mb-5 md:mb-4 text-[17px] md:text-[16px] leading-[1.6] md:leading-[1.5] text-[var(--cream-muted)]">
+                I built this site using Claude Code. I&apos;m a Senior Product Manager with 7+ years scaling growth, experimentation, and data
+                platforms across consumer and B2B SaaS products. Most recently, I built and operated growth
+                infrastructure for 22M+ users across People Inc.&apos;s 40+ brands (People, Entertainment Weekly, and more), driving 33% YoY email revenue growth and establishing a UGC-driven $2.2M+ annual
                 revenue channel.
               </p>
-              <p className="m-0 mb-5 text-[17px] leading-[1.6] text-[var(--cream-muted)]">
-                Previously led content platform scaling at Muck Rack, increasing daily article
-                ingestion by 350% and managing AI/ML model training to reduce model parsing
-                errors by 45% YoY. I blend technical depth (data architecture, SQL, ETL, LLM/RAG
-                workflows, etc.) and legal fluency (MS in Law, Northwestern, with focus on
-                Privacy Law and IP Strategy) to navigate data governance, consumer privacy
-                compliance, partnership contract negotiations, product decisions, and
-                cross-functional stakeholder dynamics in a more hands-on way compared to other
-                PMs.
+              <p className="m-0 mb-5 md:mb-4 text-[17px] md:text-[16px] leading-[1.6] md:leading-[1.5] text-[var(--cream-muted)]">
+                I blend data (architecture, SQL, ETL, etc.) and legal fluency (MS in Law, Northwestern;
+                Data, Privacy, IP) to navigate complex strategy areas (data governance, compliance, etc.) with ease. I effectively collaborate with stakeholders and delegate appropriately
+                 while being hands-on where it counts.
               </p>
-              <p className="m-0 mb-8 text-[17px] leading-[1.6] text-[var(--cream-muted)]">
-                Currently open to Senior PM roles in media and streaming. If you&apos;re building
+              <p className="m-0 mb-8 md:mb-6 text-[17px] md:text-[16px] leading-[1.6] md:leading-[1.5] text-[var(--cream-muted)]">
+                I&apos;m currently open to Senior PM roles in media and streaming. If you&apos;re building
                 a growth or platform team and want someone who can own outcomes end-to-end,
                 let&apos;s talk:{' '}
                 <a
@@ -94,7 +113,8 @@ export default function AboutPage() {
                 </a>
               </p>
 
-              <div className="flex flex-col gap-3">
+              {/* Desktop/tablet socials: inline row below the paragraphs */}
+              <div className="hidden md:flex flex-row flex-wrap gap-x-6 gap-y-3">
                 <SocialLink
                   href="https://www.linkedin.com/in/malxavi/"
                   label="LinkedIn"
@@ -122,29 +142,38 @@ function SocialLink({
   label,
   handle,
   icon,
+  compact,
 }: {
   href: string;
   label: string;
   handle: string;
   icon: React.ReactNode;
+  compact?: boolean;
 }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={compact ? label : undefined}
       className="group inline-flex items-center gap-3 text-[var(--cream-muted)] hover:text-[var(--cream)] transition-colors w-fit"
     >
-      <span className="flex items-center justify-center w-9 h-9 rounded-[10px] border border-[rgba(245,230,208,0.12)] bg-[rgba(245,230,208,0.04)] group-hover:border-[var(--gold)] group-hover:bg-[rgba(212,165,116,0.08)] transition-colors">
+      <span
+        className={`flex items-center justify-center ${
+          compact ? 'w-8 h-8' : 'w-9 h-9'
+        } rounded-[10px] border border-[rgba(245,230,208,0.12)] bg-[rgba(245,230,208,0.04)] group-hover:border-[var(--gold)] group-hover:bg-[rgba(212,165,116,0.08)] transition-colors`}
+      >
         {icon}
       </span>
       <span className="flex flex-col">
-        <span
-          className="text-[10px] uppercase tracking-[0.22em] text-[var(--cream-dim)] group-hover:text-[var(--gold)] transition-colors"
-          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
-        >
-          {label}
-        </span>
+        {!compact && (
+          <span
+            className="text-[10px] uppercase tracking-[0.22em] text-[var(--cream-dim)] group-hover:text-[var(--gold)] transition-colors"
+            style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+          >
+            {label}
+          </span>
+        )}
         <span
           className="text-[14px] tracking-[0.02em]"
           style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
