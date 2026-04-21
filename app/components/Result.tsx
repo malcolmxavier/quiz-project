@@ -64,19 +64,23 @@ export function Result({
       <ProgressBar fraction={1} />
 
       {/* ── Hero ──────────────────────────── */}
-      <section className="mx-auto max-w-[560px] px-7 pt-9 pb-4 md:max-w-[640px] md:px-10 md:pt-12 md:pb-7">
-        <h1 className="m-0 mb-3.5 font-medium text-[54px] md:text-[72px] leading-none tracking-[-0.035em] text-[var(--cream)]">
-          {archetype.name}
-        </h1>
-        <p
-          className="m-0 mb-[18px] max-w-[480px] text-[19px] leading-[1.4] tracking-[-0.005em] text-[var(--cream-muted)]"
-          style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
-        >
-          {archetype.descriptor}
-        </p>
+      <section className="mx-auto max-w-[560px] px-7 pt-9 pb-4 md:max-w-[880px] md:px-10 md:pt-12 md:pb-7 lg:max-w-[1024px]">
+        <div className="md:grid md:grid-cols-2 md:gap-4 md:items-end md:mb-7">
+          <h1 className="m-0 mb-3.5 md:mb-0 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--cream)]">
+            {archetype.name}
+          </h1>
+          <p
+            className="m-0 mb-[18px] md:mb-2 max-w-[480px] text-[19px] leading-[1.4] tracking-[-0.005em] text-[var(--cream-muted)]"
+            style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
+          >
+            {archetype.descriptor}
+          </p>
+        </div>
 
+        {/* ── Cards grid (drink + gift) ──────────────── */}
+        <div className="md:grid md:grid-cols-2 md:gap-4 md:mb-4">
         {/* ── Drink card ──────────────── */}
-        <div className="glass mb-3">
+        <div className="glass mb-3 md:mb-0">
           <p
             className="m-0 mb-1.5 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
             style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
@@ -109,7 +113,7 @@ export function Result({
         </div>
 
         {/* ── Gift card ───────────────── */}
-        <div className="glass gift-card mb-3.5">
+        <div className="glass gift-card mb-3.5 md:mb-0">
           <p
             className="m-0 mb-1.5 text-[11px] uppercase tracking-[0.22em] text-[var(--matcha-bright)]"
             style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
@@ -145,9 +149,10 @@ export function Result({
             </span>
           </p>
         </div>
+        </div>
 
         {/* ── Share row ───────────────── */}
-        <div className="flex gap-2.5">
+        <div className="flex gap-2.5 md:max-w-[640px] md:mx-auto">
           <ShareButton primary onClick={() => shareResult(archetype.name, drink.name)}>
             Share your ritual
           </ShareButton>
@@ -163,12 +168,6 @@ export function Result({
         onChange={onDraftChange}
         introSlot={
           <div className="mb-4">
-            <p
-              className="m-0 mb-1.5 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
-              style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
-            >
-              Tune Your Ritual
-            </p>
             <h2
               className="m-0 mb-2 font-medium text-[28px] leading-[1.05] tracking-[-0.01em] text-[var(--cream)]"
               style={{ fontFamily: 'var(--font-fraunces), serif' }}
@@ -177,15 +176,15 @@ export function Result({
             </h2>
             <p className="m-0 max-w-[440px] text-[14px] leading-[1.5] text-[var(--cream-muted)]">
               Adjust your taste preferences below — then find your new ritual.
-              <button
-                type="button"
-                onClick={onRestart}
-                className="ml-2 underline text-[var(--cream-muted)] hover:text-[var(--cream)] cursor-pointer bg-transparent border-0 text-[14px]"
-                style={{ fontFamily: 'inherit' }}
-              >
-                Or re-take the quiz.
-              </button>
             </p>
+            <button
+              type="button"
+              onClick={onRestart}
+              className="mt-1.5 p-0 underline text-[13px] text-[var(--cream-muted)] hover:text-[var(--cream)] cursor-pointer bg-transparent border-0"
+              style={{ fontFamily: 'inherit' }}
+            >
+              Or re-take the quiz.
+            </button>
           </div>
         }
         footerSlot={

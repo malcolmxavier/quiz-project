@@ -1,9 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import type { FacetState } from '@/lib/types';
+import { useEffect, useState } from 'react';
+import type {
+  FacetState,
+  FlavorNote,
+  Milk,
+  Roast,
+  Strength,
+  Style,
+  Sweetness,
+  Temperature,
+} from '@/lib/types';
 import { recommend } from '@/lib/recommender';
 import { generateSessionCode } from '@/lib/session';
+import { archetypeById } from '@/lib/data/archetypes';
 import { Quiz } from './components/Quiz';
 import { Result } from './components/Result';
 
@@ -61,6 +71,21 @@ export default function Home() {
     if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
+  // Dev preview: ?preview=<drink-id> jumps straight to the result page for
+  // that drink. Brute-forces the facet space to find a winning state.
+  useEffect(() => {
+    if (committedState) return;
+    const params = new URLSearchParams(window.location.search);
+    const previewId = params.get('preview');
+    if (!previewId) return;
+    const state = findStateForDrink(previewId);
+    const archetype = archetypeById(previewId);
+    if (!state || !archetype) return;
+    setCommittedState(state);
+    setDraftState(state);
+    setSessionCode((prev) => prev || generateSessionCode(archetype.slug));
+  }, [committedState]);
+
   if (!committedState || !draftState) {
     return <Quiz onComplete={handleQuizComplete} />;
   }
@@ -75,4 +100,31 @@ export default function Home() {
       onRestart={handleRestart}
     />
   );
+}
+
+// ── Dev preview helper ──────────────────────────────────────
+const STYLES: Style[] = ['espresso-based', 'brewed', 'cold-brewed', 'tea-based'];
+const TEMPS: Temperature[] = ['hot', 'iced'];
+const STRENGTHS: Strength[] = ['light', 'medium', 'bold', 'extra-bold'];
+const MILKS: Milk[] = ['black', 'whole', '2%', 'oat', 'almond', 'soy'];
+const SWEETNESSES: Sweetness[] = ['none', 'touch', 'sweet', 'indulgent'];
+const FLAVORS: FlavorNote[] = [
+  'fruity', 'floral', 'chocolate', 'nutty', 'caramel', 'spicy', 'earthy',
+];
+const ROASTS: Roast[] = ['light', 'medium', 'dark'];
+
+function findStateForDrink(drinkId: string): FacetState | null {
+  for (const style of STYLES)
+    for (const temperature of TEMPS)
+      for (const strength of STRENGTHS)
+        for (const milk of MILKS)
+          for (const sweetness of SWEETNESSES)
+            for (const flavorNote of FLAVORS)
+              for (const roast of ROASTS) {
+                const state: FacetState = {
+                  style, temperature, strength, milk, sweetness, flavorNote, roast,
+                };
+                if (recommend(state).drink.id === drinkId) return state;
+              }
+  return null;
 }

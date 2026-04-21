@@ -23,10 +23,20 @@ interface FacetEditorProps {
  * is the SAME module used on the result surface and (in a post-MVP
  * iteration) on the user profile page — it takes (state, introSlot)
  * and emits partial-state updates. No host-specific coupling.
+ *
+ * Renders its own "Tune Your Ritual" eyebrow — universal across all
+ * editor hosts. Host-specific headline + copy go through introSlot.
  */
 export function FacetEditor({ state, onChange, introSlot, footerSlot }: FacetEditorProps) {
   return (
-    <section className="editor-wrap mx-auto max-w-[560px] px-7 pb-20 md:max-w-[640px] md:px-10 md:pb-[120px]">
+    <section className="editor-wrap mx-auto max-w-[560px] px-7 pb-20 md:max-w-[880px] md:px-10 md:pb-[120px] lg:max-w-[1024px]">
+      <div className="md:max-w-[560px] lg:max-w-[640px]">
+      <p
+        className="m-0 mb-1.5 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
+        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+      >
+        Tune Your Ritual
+      </p>
       {introSlot}
 
       <Row
@@ -123,6 +133,7 @@ export function FacetEditor({ state, onChange, introSlot, footerSlot }: FacetEdi
       />
 
       {footerSlot}
+      </div>
     </section>
   );
 }
