@@ -245,12 +245,12 @@ function BeatTriangulation() {
 
       <ClaudeNote>
         I had Claude spin up three custom sub-agents: an <Emph>Exec (ROI lens)</Emph>, a{' '}
-        <Emph>Product Designer (identity / emotion lens)</Emph>, a{' '}
+        <Emph>Product Designer (identity/emotion lens)</Emph>, a{' '}
         <Emph>Barista Lead (ground-truth lens)</Emph>. Then, I fed them the synthesis and hypothesis, asking for pressure-testing. They converged from different angles —
         Exec said &ldquo;numbers or kill it,&rdquo; Designer said &ldquo;identity vacuum, not loyalty
         problem,&rdquo; Barista said &ldquo;customers ask &lsquo;what should I try?&rsquo; ten times a day
         and we can&apos;t tell them.&rdquo; Then I built a fourth agent of my own: a{' '}
-        <Emph>Growth Product Strategist</Emph>, tuned for funnel / activation / retention-loop product thinking.
+        <Emph>Growth Product Strategist</Emph>, tuned for funnel/activation/retention-loop product thinking.
         <span className="block mt-3">
           The three generalists told me whether the synthesis held up from their angles. The growth agent
           checked for growth levers that formed the hypothesis; that&apos;s the lens that matters most in my day job.
@@ -405,7 +405,7 @@ function BeatArtifact() {
           drive a meaningful visit moment?&rdquo;</Emph> A production version would wire the rest.
         </p>
         <p>
-          A handful of design / growth / data / architecture decisions from the build are worth pulling
+          A handful of design/growth/data/architecture decisions from the build are worth pulling
           up—short annotations on what we tried, what we chose, and what we gave up. Each one is
           present-tense enough to ship and future-minded enough to survive the production rewrite.
         </p>
@@ -475,7 +475,7 @@ function BeatHowBuilt() {
           tomorrow, Claude already knows how I work.
         </HarnessFeature>
         <HarnessFeature name="Custom sub-agents">
-          Three advisors (Exec / Product Designer / Barista Lead) plus a Growth Product Strategist.
+          Three advisors (Exec/Product Designer/Barista Lead) plus a Growth Product Strategist.
           Invoke any for a lens-specific review without re-priming context.
         </HarnessFeature>
         <HarnessFeature name="Plan mode">
@@ -764,7 +764,7 @@ function DrinkMatrix() {
           className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--gold)]"
           style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
         >
-          Drink Profiles
+          Drink Profiles &amp; Coverage
         </p>
         <p className="m-0 text-[11px] md:text-[12px] text-[var(--cream-dim)]">
           {menu.length} drinks · {FAMILY_ORDER.length} families · {COVERAGE.totalPaths.toLocaleString()} quiz paths
@@ -827,7 +827,7 @@ function DrinkMatrix() {
           Each drink&apos;s facet profile is the thing the recommender scores against. A user&apos;s
           facet state from the quiz returns the closest match on strength, milk, temperature, and
           flavor—filtered first by style family. The percentage shows each drink&apos;s share of
-          the {COVERAGE.totalPaths.toLocaleString()} distinct quiz answer paths — a coverage
+          the {COVERAGE.totalPaths.toLocaleString()}{' '}distinct quiz answer paths—a coverage
           audit, not a forecast (real users don&apos;t pick answers uniformly at random).
         </p>
       </div>
