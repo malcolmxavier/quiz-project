@@ -4,7 +4,13 @@ import { SiteChrome } from '../components/SiteChrome';
 import { Footer } from '../components/Footer';
 import { ArticleNav, type ArticleSection } from '../components/ArticleNav';
 import { menu } from '@/lib/data/menu';
+import { computeCoverage } from '@/lib/coverage';
 import type { Drink, MilkMode, Strength, Temperature } from '@/lib/types';
+
+// Computed at render time on the server — coverage is deterministic and
+// stays in sync with menu/question data automatically.
+const COVERAGE = computeCoverage();
+const SHARE_BY_DRINK_ID = new Map(COVERAGE.perDrink.map((d) => [d.drinkId, d.share]));
 
 const SECTIONS: ArticleSection[] = [
   { id: 'intro', number: '00', title: 'Intro' },
@@ -433,6 +439,7 @@ function BeatArtifact() {
         <IterationCard lens="Data · Growth" title="Session code as measurement">
           Initial draft re-minted the discount code on every preference update. That broke the instrument.
           Locked the code on first quiz completion, preserved across edits AND re-takes. Measurement can now include alignment between the recommendation (as encoded in the discount code) and the drink actually purchased, in addition to conversion.
+          We can also review alignment between percentage of users recommended a certain drink and the likelihood of that output to help frame this data.
         </IterationCard>
         <IterationCard lens="Growth · UX" title="Editable profile, not one-shot">
           Course requirements end at the quiz and results. I added the editable taste
@@ -760,7 +767,7 @@ function DrinkMatrix() {
           Drink Profiles
         </p>
         <p className="m-0 text-[11px] md:text-[12px] text-[var(--cream-dim)]">
-          {menu.length} drinks · {FAMILY_ORDER.length} families
+          {menu.length} drinks · {FAMILY_ORDER.length} families · {COVERAGE.totalPaths.toLocaleString()} quiz paths
         </p>
       </div>
 
@@ -777,31 +784,41 @@ function DrinkMatrix() {
               {group.label} · {group.drinks.length}
             </p>
           </div>
-          {group.drinks.map((drink, di) => (
-            <div
-              key={drink.id}
-              className={`px-4 py-3 md:px-6 md:py-3.5 ${
-                di < group.drinks.length - 1 ? 'border-b border-[var(--line)]' : ''
-              }`}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-1 md:gap-6">
-                <p className="m-0 text-[15px] md:text-[16px] text-[var(--cream)]">
-                  {drink.name}
-                </p>
-                <p className="m-0 text-[13px] md:text-[14px] leading-[1.5] text-[var(--cream-muted)]">
-                  <FacetChip>{fmtStrength(drink.typicalStrength)}</FacetChip>
-                  <Dot />
-                  <FacetChip>{fmtMilk(drink.milkMode)}</FacetChip>
-                  <Dot />
-                  <FacetChip>{fmtTemp(drink.temperatures)}</FacetChip>
-                  <Dot />
-                  <span className="text-[var(--cream-dim)]">
-                    {drink.compatibleFlavors.join(', ')}
-                  </span>
-                </p>
+          {group.drinks.map((drink, di) => {
+            const share = SHARE_BY_DRINK_ID.get(drink.id) ?? 0;
+            return (
+              <div
+                key={drink.id}
+                className={`px-4 py-3 md:px-6 md:py-3.5 ${
+                  di < group.drinks.length - 1 ? 'border-b border-[var(--line)]' : ''
+                }`}
+              >
+                <div className="grid grid-cols-[1fr_auto] md:grid-cols-[160px_1fr_auto] gap-x-3 md:gap-x-6 items-baseline">
+                  <p className="m-0 text-[15px] md:text-[16px] text-[var(--cream)]">
+                    {drink.name}
+                  </p>
+                  <p
+                    className="col-start-2 row-start-1 md:col-start-3 md:row-start-1 m-0 text-[11px] md:text-[12px] tracking-[0.04em] tabular-nums whitespace-nowrap text-right text-[var(--gold-bright)]"
+                    style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+                    title={`${Math.round(share * COVERAGE.totalPaths).toLocaleString()} of ${COVERAGE.totalPaths.toLocaleString()} quiz paths`}
+                  >
+                    {(share * 100).toFixed(1)}%
+                  </p>
+                  <p className="col-span-2 md:col-span-1 md:col-start-2 md:row-start-1 m-0 text-[13px] md:text-[14px] leading-[1.5] text-[var(--cream-muted)]">
+                    <FacetChip>{fmtStrength(drink.typicalStrength)}</FacetChip>
+                    <Dot />
+                    <FacetChip>{fmtMilk(drink.milkMode)}</FacetChip>
+                    <Dot />
+                    <FacetChip>{fmtTemp(drink.temperatures)}</FacetChip>
+                    <Dot />
+                    <span className="text-[var(--cream-dim)]">
+                      {drink.compatibleFlavors.join(', ')}
+                    </span>
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ))}
 
@@ -809,7 +826,9 @@ function DrinkMatrix() {
         <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--cream-dim)]">
           Each drink&apos;s facet profile is the thing the recommender scores against. A user&apos;s
           facet state from the quiz returns the closest match on strength, milk, temperature, and
-          flavor—filtered first by style family.
+          flavor—filtered first by style family. The percentage shows each drink&apos;s share of
+          the {COVERAGE.totalPaths.toLocaleString()} distinct quiz answer paths — a coverage
+          audit, not a forecast (real users don&apos;t pick answers uniformly at random).
         </p>
       </div>
     </div>
