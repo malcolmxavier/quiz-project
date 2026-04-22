@@ -2,6 +2,8 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { SiteChrome } from '../components/SiteChrome';
 import { Footer } from '../components/Footer';
+import { menu } from '@/lib/data/menu';
+import type { Drink, MilkMode, Strength, Temperature } from '@/lib/types';
 
 export const metadata = {
   title: 'Case Study · Basecamp Coffee',
@@ -39,27 +41,39 @@ export default function CaseStudyPage() {
 function Hero() {
   return (
     <section className="mx-auto max-w-[560px] px-7 pt-9 pb-6 md:max-w-[880px] md:px-10 md:pt-14 md:pb-8 lg:max-w-[1024px]">
-      <p
-        className="m-0 mb-3 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
-        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
-      >
-        Case Study
-      </p>
-      <h1 className="m-0 mb-6 md:mb-8 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--cream)]">
-        Basecamp Rewards: A Turnaround
+      <div className="flex items-baseline justify-between gap-4 mb-3">
+        <p
+          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
+          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        >
+          Case Study
+        </p>
+        <p
+          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--cream-dim)]"
+          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        >
+          10 min read
+        </p>
+      </div>
+      <h1 className="m-0 mb-3 md:mb-4 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--cream)]">
+        Claude x Growth PM
       </h1>
+      <h2 className="m-0 mb-6 md:mb-8 font-medium text-[24px] md:text-[32px] lg:text-[36px] leading-[1.15] tracking-[-0.015em] text-[var(--cream-muted)]">
+        Basecamp Rewards: A Turnaround
+      </h2>
       <p
         className="m-0 text-[19px] md:text-[21px] leading-[1.4] tracking-[-0.005em] text-[var(--cream-muted)]"
         style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
       >
-        This page is two things at once: a case study of a loyalty-program
-        turnaround, and an exercise in using Claude Code as a thinking and
-        build partner. The Basecamp Coffee scenario is the test material.{' '}
+        This page is an overview of two things at once. First and foremost, this is documentation of my
+        first pass at using Claude Code as a building and thinking partner in developing a site. Second, it&apos;s a
+        case study of a loyalty-program turnaround, using the Basecamp Coffee scenario as a practice space
+        for demonstrating my Growth PM skills and what I&apos;ve learned about using Claude Code as a partner.{' '}
         <Link
           href="/"
           className="text-[var(--gold-bright)] underline decoration-[var(--gold)]/40 underline-offset-[5px] decoration-[1.5px] hover:decoration-[var(--gold)]"
         >
-          The quiz in the nav
+          The quiz
         </Link>{' '}
         is the prototype that came out of it. What follows is the story of how
         it got there.
@@ -74,30 +88,41 @@ function BeatSignal() {
     <Beat number="01" title="The Signal" claudeTag="file-tree exploration" headline="Brand healthy. Program on fire.">
       <Body>
         <p>
-          The first number that told me what was actually broken: <Emph>Brand NPS 67, Program NPS 12.</Emph>{' '}
-          Same customer base, same roasters — a 55-point gap between how people felt about Basecamp
+          The first data that told me what was actually broken: <Emph>Brand NPS 67, Program NPS 12</Emph>.{' '}
+          Same customer base, same roasters, a 55-point gap between how people felt about Basecamp
           and how they felt about the rewards program.
         </p>
         <p>
-          That divergence reframes the problem. If brand NPS had dropped with program NPS, this would
-          be a brand crisis. It didn&apos;t. Customers still loved the coffee, the shops, the baristas. They
+          The divergence tangibly frames the problem and its criticality. If brand NPS had dropped with program NPS, this might have
+          been a brand crisis. But it didn&apos;t.
+        </p>
+        <p>
+          Customers still loved the coffee, the shops, the baristas. They
           specifically disliked the rewards program. An isolated program-design failure was dragging down
           a healthy business.
+        </p>
+        <p>
+          For context: Basecamp Rewards is a standard points-per-purchase program built around three
+          tiers—<Emph>Trailblazer → Explorer → Summit</Emph>. The mechanics are conventional and,
+          for accounting reasons, locked. The program isn&apos;t broken in the plumbing; it&apos;s broken
+          in what customers feel when they use it.
         </p>
       </Body>
 
       <StatRow>
         <Stat big="67" eyebrow="Brand NPS" caption="Basecamp Coffee overall. Stable across the decline window." />
-        <Stat big="12" eyebrow="Program NPS" caption="Basecamp Rewards specifically. Down from 34 six months ago." />
+        <Stat big="12" eyebrow="Program NPS" caption="Basecamp Rewards specifically. -65% from 34 six months ago." />
       </StatRow>
 
       <ClaudeNote>
         First move: I pointed Claude at the <Code>inherited-chaos/</Code> directory and asked it
         to triage. Member data CSV, advisor emails, failed campaign post-mortems, customer feedback
-        by month, competitor research — hundreds of pages from the outgoing manager. Claude built
+        by month, competitor research—hundreds of pages from the outgoing manager. Claude built
         a mental map of the corpus; I asked it to highlight what was load-bearing. The NPS
-        divergence surfaced from <Code>organized/feedback-synthesis.md</Code> almost immediately. Claude
-        didn&apos;t pick the insight — it found the data point that let me pick it.
+        divergence surfaced from <Code>organized/feedback-synthesis.md</Code> almost immediately.
+        <span className="block mt-3 text-[var(--cream)] font-medium">
+          Claude didn&apos;t pick the insight; it found the data points that led me to it.
+        </span>
       </ClaudeNote>
     </Beat>
   );
@@ -117,16 +142,15 @@ function BeatData() {
   ];
 
   return (
-    <Beat number="02" title="The Data" claudeTag="data synthesis" headline="The signups were lying.">
+    <Beat number="02" title="The Data" claudeTag="data synthesis" headline="Signups masking indifference.">
       <Body>
         <p>Six months of metric movement. Three patterns mattered.</p>
       </Body>
 
       <div className="my-8 md:my-10 grid grid-cols-1 md:grid-cols-3 gap-4">
         <EvidenceCard eyebrow="Pattern 01" title="Hollow growth">
-          Signups up 123%, MAU down 60%. That&apos;s not a growth curve — that&apos;s a leaky bucket
-          with the tap turned up. Management pointed to signups as good news; it was the only number
-          that didn&apos;t matter.
+          Signups +123%, MAU -60%. A leaky bucket that would lead to a churn and burn strategy if not addressed directly.
+          Management pointed to signups as good news; ironically, it was overshadowing more important data.
         </EvidenceCard>
         <EvidenceCard eyebrow="Pattern 02" title="Unit-econ inversion">
           LTV collapsed from $47 to $29 while cost-per-member climbed from $8.50 to $14.50. ROI went
@@ -135,7 +159,7 @@ function BeatData() {
         <EvidenceCard eyebrow="Pattern 03" title="Cadence rot">
           Average days between visits: 4.2 → 10.4. Cadence is the leading indicator; retention and
           LTV are lagging. Members who used to come in twice a week were coming in every other week.
-          They weren&apos;t leaving angrily — they were forgetting.
+          They weren&apos;t leaving angrily, but they weren&apos;t coming back excited either.
         </EvidenceCard>
       </div>
 
@@ -144,8 +168,14 @@ function BeatData() {
       <ClaudeNote>
         I loaded the member-data CSV into context and asked Claude to extract what had actually moved.
         It surfaced the table above. I then asked it to separate <Emph>vanity metrics</Emph> from{' '}
-        <Emph>load-bearing metrics</Emph> — what would a skeptical CFO say if I brought them the signup
+        <Emph>load-bearing metrics</Emph>—what would a skeptical CFO say if I brought them the signup
         number alone? That reframe made the hollow-growth diagnosis unavoidable.
+        <span className="block mt-3">
+          I should note that this is a problem the data shows, irrespective of the rewards program.{' '}
+          <span className="text-[var(--cream)] font-medium">
+            The hypothesis here is just that the rewards program is a lever that can be pulled to start fixing the problem.
+          </span>
+        </span>
       </ClaudeNote>
     </Beat>
   );
@@ -158,20 +188,20 @@ function BeatTriangulation() {
       number="03"
       title="The Triangulation"
       claudeTag="multi-agent review"
-      headline="Four signals. One direction."
+      headline="Smoke signal to house on fire."
     >
       <Body>
         <p>
-          When a system is failing, one bad signal is suggestive. Four independent signals
-          pointing the same direction is a decision.
+          When a system is failing, one bad signal is the smell of smoke. Four independent signals
+          starts feeling like the coffee is burning.
         </p>
       </Body>
 
       <EvidenceGrid>
         <EvidenceCard eyebrow="Signal 01" title="Member behavior">
-          Cadence rotting, tier stagnation (89% stuck at Trailblazer), 23-second app sessions. Members
-          weren&apos;t rage-quitting — they were drifting away indifferent. Worse than anger. It&apos;s{' '}
-          <Emph>forgetting.</Emph>
+          Cadence rotting, tier stagnation (89% stuck at Trailblazer, the first tier of the program), 23-second app sessions. Members
+          weren&apos;t rage-quitting—they were drifting away indifferent. Worse than anger. It&apos;s{' '}
+          <Emph>forgetting</Emph>.
         </EvidenceCard>
         <EvidenceCard eyebrow="Signal 02" title="Customer voice">
           &ldquo;Fine but forgettable&rdquo; showed up in customer feedback for three consecutive months.
@@ -194,18 +224,22 @@ function BeatTriangulation() {
       </Pullquote>
 
       <ClaudeNote>
-        I had Claude spin up three custom sub-agents: an <Emph>Exec</Emph> (ROI lens), a{' '}
-        <Emph>Product Designer</Emph> (identity / emotion lens), a <Emph>Barista Lead</Emph> (ground-truth
-        lens). Fed them the synthesis, asked for pressure-testing. They converged from different angles —
+        I had Claude spin up three custom sub-agents: an <Emph>Exec (ROI lens)</Emph>, a{' '}
+        <Emph>Product Designer (identity / emotion lens)</Emph>, a{' '}
+        <Emph>Barista Lead (ground-truth lens)</Emph>. Then, I fed them the synthesis and hypothesis, asking for pressure-testing. They converged from different angles —
         Exec said &ldquo;numbers or kill it,&rdquo; Designer said &ldquo;identity vacuum, not loyalty
         problem,&rdquo; Barista said &ldquo;customers ask &lsquo;what should I try?&rsquo; ten times a day
         and we can&apos;t tell them.&rdquo; Then I built a fourth agent of my own: a{' '}
-        <Emph>growth-product-strategist</Emph>, tuned for funnel / activation / retention-loop thinking.
-        The three generalists told me whether the thesis held up from their angles; the growth agent stress-tested
-        it as a growth play — does the quiz sit at the activation moment? does the archetype reveal close a
-        retention loop? That&apos;s the lens that matters most in my day job, and codifying it as a reusable
-        agent means I reach for it on the next project too. Output in <Code>reviews/synthesis-feedback.md</Code>.
-        Cross-lens convergence is the difference between hunting confirmation and earning confidence.
+        <Emph>Growth Product Strategist</Emph>, tuned for funnel / activation / retention-loop product thinking.
+        <span className="block mt-3">
+          The three generalists told me whether the synthesis held up from their angles. The growth agent
+          checked for growth levers that formed the hypothesis; that&apos;s the lens that matters most in my day job.
+          I also stored it globally as a reusable agent, which means I can reach for it on my forthcoming projects...
+        </span>
+        <span className="block mt-3">
+          Output from the first three agents is in <Code>reviews/synthesis-feedback.md</Code>.
+          In the real world, these agents would be tuned to actual stakeholders and their behaviors. The automated, cross-lens analysis would enable me to move through stakeholder opportunity validation to solution recommendation(s) more efficiently.
+        </span>
       </ClaudeNote>
 
       <Pullquote attribution="Product Designer sub-agent">
@@ -218,22 +252,21 @@ function BeatTriangulation() {
 // ─── Beat 4 — The Bet ────────────────────────────────────────
 function BeatBet() {
   return (
-    <Beat number="04" title="The Bet" claudeTag="thinking partner" headline="Fix isn't more points. Fix is personality.">
+    <Beat number="04" title="The Bet" claudeTag="thinking partner" headline="Personality over points.">
       <Body>
         <p>
           The mechanics couldn&apos;t change — the points structure is legally locked (accounting
-          reasons). That removed a tempting distraction. The question wasn&apos;t &ldquo;what mechanic
-          should we invent?&rdquo; It was <Emph>what would make members want to come back independent
+          reasons). That removed a tempting distraction. The question now was: <Emph>what would make members want to come back, independent
           of the mechanics?</Emph>
         </p>
         <p>
-          <Emph>Hypothesis:</Emph> if we give members a coffee-identity artifact — an archetype they
-          claim, a matched drink, something shareable — cadence recovers, retention follows, program NPS
+          <Emph>Hypothesis:</Emph> if we give users a coffee-identity artifact—an archetype they
+          claim, a matched drink, something shareable—cadence recovers, retention follows, program NPS
           stops bleeding.
         </p>
         <p>
-          That&apos;s testable. You can define what success looks like before you run it, which means
-          you can define failure too. That&apos;s all I want from a bet — a thing that can be wrong.
+          That&apos;s testable. And with quality experiment design you must define what success looks like before you run it (which means
+          you must define failure too). This is where growth and data strategy meet.
         </p>
       </Body>
 
@@ -246,7 +279,7 @@ function BeatBet() {
         The move from &ldquo;convergent evidence&rdquo; to &ldquo;specific hypothesis&rdquo; is where
         Claude earns its keep as a thinking partner. I iterated on what the evidence actually implied —
         not &ldquo;people want personality in general&rdquo; but specifically{' '}
-        <Emph>a claimable archetype with a matched drink.</Emph> Decisions and open research questions
+        <Emph>a claimable archetype with a matched drink</Emph>. Decisions and open research questions
         went into project memory so I wouldn&apos;t re-litigate them tomorrow.
       </ClaudeNote>
     </Beat>
@@ -260,19 +293,19 @@ function BeatExperiment() {
       number="05"
       title="The Experiment"
       claudeTag="artifact drafting"
-      headline="Bounded test. Explicit kill."
+      headline="Succeed or sunset."
     >
       <Body>
         <p>The pilot:</p>
-        <ul className="m-0 mb-6 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--cream-muted)] list-disc marker:text-[var(--gold)]">
+        <ul className="m-0 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--cream-muted)] list-disc marker:text-[var(--gold)]">
           <li><Emph>2 stores</Emph>, selected for representative member profiles</li>
           <li><Emph>60 days</Emph> of operation</li>
           <li><Emph>$15K capped spend</Emph>, including tech + comms</li>
-          <li><Emph>3-of-4 success gate</Emph> — miss 2+ and we sunset the program</li>
+          <li><Emph>3-of-4 success gate</Emph>—miss 2+ and we sunset the program</li>
         </ul>
         <p>
-          A pilot without an explicit kill condition is a project, not an experiment. The kill
-          condition is what makes it a test.
+          A pilot without clear success (and failure) conditions is a project, not an experiment. The explicit success
+          criteria are what make it a test:
         </p>
       </Body>
 
@@ -285,9 +318,8 @@ function BeatExperiment() {
 
       <ClaudeNote>
         Claude drafted the pilot memo and the success-gate framing, stress-tested against the Exec
-        sub-agent&apos;s &ldquo;show me a number&rdquo; critique, and tightened the kill conditions.
-        The research debt — what we <Emph>don&apos;t</Emph> know but would need to validate post-pilot —
-        lives in a memory file tagged &ldquo;known unknowns&rdquo; so it can&apos;t get lost.
+        sub-agent&apos;s &ldquo;show me a number&rdquo; critique, and tightened the success conditions.
+        The research debt—what we <Emph>don&apos;t know</Emph>{' '}but would need to validate post-pilot—lives in a memory file tagged &ldquo;known unknowns&rdquo; so it can&apos;t get lost.
       </ClaudeNote>
     </Beat>
   );
@@ -312,75 +344,94 @@ function BeatArtifact() {
             Take the quiz.
           </Link>{' '}
           Sixty seconds. It maps you to one of 16 archetypes, recommends a drink from the actual
-          Basecamp menu, and mints a one-time discount code. The recommender is a pure function — facet
-          state in, drink and archetype out. No AI call at runtime. The intelligence is in the facet
+          Basecamp menu, and mints a one-time discount code. The recommender is a pure function—facet
+          state in (from the user&apos;s answers), drink and archetype out. No AI call at runtime. The intelligence is in the facet
           system.
         </p>
+      </Body>
+
+      <FacetMatrix />
+
+      <DrinkMatrix />
+
+      <Body>
         <p>
           <Emph>Deliberately not in the MVP:</Emph>
         </p>
-        <ul className="m-0 mb-6 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--cream-muted)] list-disc marker:text-[var(--gold)]">
-          <li>Auth / user accounts (session-only)</li>
-          <li>POS / order-flow integration (copy-code is an MVP shortcut)</li>
-          <li>Analytics instrumentation (hooks documented, not wired)</li>
-          <li>Persistence across sessions</li>
+        <ul className="m-0 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--cream-muted)] list-disc marker:text-[var(--gold)]">
+          <li>
+            Auth/user accounts
+            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--gold)]/60">
+              <li>This would theoretically be integrated into the Basecamp app/site, but it is not MVP scope. The session code is minted once per pageview to prevent gaming within a single visit; cross-session gaming is the gap auth would close.</li>
+            </ul>
+          </li>
+          <li>
+            POS/order-flow integration
+            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--gold)]/60">
+              <li>The discount code copy CTA is an MVP shortcut. Ideally, the button would initiate the order flow.</li>
+            </ul>
+          </li>
+          <li>
+            Analytics instrumentation
+            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--gold)]/60">
+              <li>Hooks documented, not wired.</li>
+            </ul>
+          </li>
         </ul>
         <p>
           What you see is the prototype that answers <Emph>&ldquo;could a 60-second identity artifact
-          drive a meaningful visit moment?&rdquo;</Emph> The production version wires the rest.
+          drive a meaningful visit moment?&rdquo;</Emph> A production version would wire the rest.
         </p>
         <p>
           A handful of design / growth / data / architecture decisions from the build are worth pulling
-          up — short annotations on what we tried, what we chose, and what we gave up. Each one is
+          up—short annotations on what we tried, what we chose, and what we gave up. Each one is
           present-tense enough to ship and future-minded enough to survive the production rewrite.
         </p>
       </Body>
 
       <IterationGrid>
         <IterationCard lens="Architecture" title="Pure recommender at runtime">
-          Could have wired a model call per result — flexible, but expensive on latency, reliability,
+          Could have wired a model call per result—flexible, but expensive on latency, reliability,
           and cost. Chose a pure function in <Code>lib/recommender.ts</Code>: facet state in, drink and
           archetype out. Deterministic, zero-latency, testable. A coverage audit script verifies every
           one of the 16 drinks stays reachable after any scoring change.
         </IterationCard>
         <IterationCard lens="Architecture · Data" title="Facet mapping, not personality buckets">
           First instinct: map users directly to personality archetypes. The valid recommendation set
-          is the actual menu, though — 16 real SKUs. Rewrote to decompose drinks into facets
+          is the actual menu, though—16 real SKUs. Rewrote to decompose drinks into facets
           (temperature, strength, milk, sweetness, flavor, roast, style) and score. By construction,
           every archetype points at a drink a customer can order. Size is deliberately excluded.
         </IterationCard>
         <IterationCard lens="Design · Data" title="Oblique prompts, not direct facet questions">
           Early quiz asked &ldquo;how strong do you like your coffee?&rdquo; Users picked the category
-          they thought they should, not the one they meant. Rewrote every prompt into sensory / ritual
-          framing — <Emph>striking a match</Emph>, <Emph>drawing a bath</Emph>. Answer text never names
+          they thought they should, not the one they meant. Rewrote every prompt into sensory/ritual
+          framing—<Emph>striking a match</Emph>, <Emph>drawing a bath</Emph>. Answer text never names
           the facet it probes. Lost some directness; gained honest taste signal.
         </IterationCard>
         <IterationCard lens="Architecture · UX" title="Committed vs. draft state">
-          First cut updated the drink card live as the editor mutated. Too flickery — every toggle
+          First cut updated the drink card live as the editor mutated. This was too flickery—every toggle
           felt like the rug moving. Split state: <Code>committedState</Code> drives the displayed
           recommendation, <Code>draftState</Code> is what the editor mutates. The card re-computes
           only when the user hits &ldquo;Find my new ritual.&rdquo; Iteration, not chaos.
         </IterationCard>
         <IterationCard lens="Data · Growth" title="Session code as measurement">
-          Initial draft re-minted the discount code on every Apply. That broke the instrument.
-          Locked the code at first completion per pageview, preserved across edits AND re-takes. The
-          real job: <Emph>(code archetype, drink actually redeemed)</Emph> is the recommendation-accuracy
-          signal. An analytics lever masquerading as a marketing lever.
+          Initial draft re-minted the discount code on every preference update. That broke the instrument.
+          Locked the code on first quiz completion, preserved across edits AND re-takes. Measurement can now include alignment between the recommendation (as encoded in the discount code) and the drink actually purchased, in addition to conversion.
         </IterationCard>
         <IterationCard lens="Growth · UX" title="Editable profile, not one-shot">
-          First cut ended at &ldquo;here&apos;s your drink, thanks.&rdquo; Added the editable taste
-          profile as the MVP shape. A user who hits a wrong answer tweaks instead of re-taking; the
-          quiz stops being a one-shot game and becomes a returnable utility. Sets up the cold-start
-          pattern for a persistent profile in production.
+          Course requirements end at the quiz and results. I added the editable taste
+          profile from my expertise. A user who hits a result they don&apos;t like can tweak instead of re-taking the
+          quiz. This sets up the pattern for a persistent profile in production. In theory, there would be a
+          separate user profile that also houses the taste profile utility. That gives users a consistent surface to return to, and gives the business a reliable core data stream.
         </IterationCard>
       </IterationGrid>
 
       <ClaudeNote>
         Next.js 16 app, built with Claude Code over a weekend. GitHub → Vercel on every push to{' '}
         <Code>main</Code>. Claude wrote most of the code; I wrote the spec, steered the architecture,
-        reviewed diffs, and caught the half-dozen &ldquo;almost right&rdquo; decisions that matter.
-        That ratio — human sets direction, Claude executes, human reviews — is what I think of as
-        the PM-with-Claude workflow.
+        reviewed diffs, and caught &ldquo;almost right&rdquo; decisions that matter. (It&apos;s important to note that they were countless throughout the process; AI is fallible still.)
+        That balance—human sets direction, Claude executes, human reviews—is what I think of as
+        the modern PM (Builder) workflow.
       </ClaudeNote>
     </Beat>
   );
@@ -391,7 +442,7 @@ function BeatHowBuilt() {
   return (
     <Beat number="07" title="How This Was Built" headline="The Claude Code workflow.">
       <Body>
-        <p>The harness features I leaned on, concretely:</p>
+        <p>The features I leaned on, concretely:</p>
       </Body>
 
       <HarnessGrid>
@@ -401,8 +452,8 @@ function BeatHowBuilt() {
           tomorrow, Claude already knows how I work.
         </HarnessFeature>
         <HarnessFeature name="Custom sub-agents">
-          Three advisors (Exec / Product Designer / Barista Lead) plus a growth-product-strategist
-          specialist. Invoke any for a lens-specific review without re-priming context.
+          Three advisors (Exec / Product Designer / Barista Lead) plus a Growth Product Strategist.
+          Invoke any for a lens-specific review without re-priming context.
         </HarnessFeature>
         <HarnessFeature name="Plan mode">
           For anything non-trivial. This very page was planned, reviewed, revised before a line of
@@ -425,15 +476,15 @@ function BeatHowBuilt() {
       <Body>
         <p className="mt-8">
           These aren&apos;t novel tools on their own. The workflow is:{' '}
-          <Emph>treat Claude like a smart junior who persists.</Emph> Give it durable context, lens
+          <Emph>treat Claude like a smart junior</Emph>. Give it durable context, lens
           specialization, and structured decision points. Then iterate fast, review everything, own
           the direction.
         </p>
         <p>
           Recursive detail: this case study was planned in plan mode, revised after my first draft
           missed the meta-frame entirely, written in ~500 lines of TSX with Claude doing the heavy
-          typing, and shipped via a push to <Code>main</Code>. End-to-end, maybe two hours. That&apos;s the
-          unlock.
+          typing, and shipped via a push to <Code>main</Code>. A full business day of work to build
+          a functioning prototype and detailed case study.
         </p>
       </Body>
     </Beat>
@@ -490,7 +541,14 @@ function Body({ children }: { children: ReactNode }) {
 }
 
 function Emph({ children }: { children: ReactNode }) {
-  return <span className="text-[var(--cream)] font-medium">{children}</span>;
+  return (
+    <span
+      className="text-[var(--cream)]"
+      style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
+    >
+      {children}
+    </span>
+  );
 }
 
 function Code({ children }: { children: ReactNode }) {
@@ -583,6 +641,170 @@ function EvidenceCard({ eyebrow, title, children }: { eyebrow: string; title: st
       <p className="m-0 text-[15px] leading-[1.5] text-[var(--cream-muted)]">{children}</p>
     </div>
   );
+}
+
+const FACETS: { name: string; values: string[] }[] = [
+  { name: 'Style', values: ['espresso-based', 'brewed', 'cold-brewed', 'tea-based'] },
+  { name: 'Temperature', values: ['hot', 'iced'] },
+  { name: 'Strength', values: ['light', 'medium', 'bold', 'extra-bold'] },
+  { name: 'Milk', values: ['black', 'whole', '2%', 'oat', 'almond', 'soy'] },
+  { name: 'Sweetness', values: ['none', 'touch', 'sweet', 'indulgent'] },
+  { name: 'Flavor', values: ['fruity', 'floral', 'chocolate', 'nutty', 'caramel', 'spicy', 'earthy'] },
+  { name: 'Roast', values: ['light', 'medium', 'dark'] },
+];
+
+function FacetMatrix() {
+  return (
+    <div className="my-8 md:my-10 rounded-xl border border-[var(--line)] overflow-hidden">
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--line)] bg-[rgba(245,230,208,0.02)] flex items-baseline justify-between gap-4">
+        <p
+          className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--gold)]"
+          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        >
+          Facet Mapping
+        </p>
+        <p className="m-0 text-[11px] md:text-[12px] text-[var(--cream-dim)]">
+          7 dimensions · 16 drinks · 16 archetypes
+        </p>
+      </div>
+      <dl className="m-0">
+        {FACETS.map((facet) => (
+          <div
+            key={facet.name}
+            className="grid grid-cols-[96px_1fr] md:grid-cols-[160px_1fr] gap-3 md:gap-6 px-4 py-3 md:px-6 md:py-3.5 border-b border-[var(--line)] last:border-b-0"
+          >
+            <dt
+              className="m-0 text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[var(--cream-dim)] pt-[3px]"
+              style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+            >
+              {facet.name}
+            </dt>
+            <dd className="m-0 text-[14px] md:text-[15px] leading-[1.5] text-[var(--cream-muted)]">
+              {facet.values.map((v, i) => (
+                <span key={v}>
+                  <span className="text-[var(--cream)] whitespace-nowrap">{v}</span>
+                  {i < facet.values.length - 1 && (
+                    <span className="text-[var(--cream-dim)]">{' · '}</span>
+                  )}
+                </span>
+              ))}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[rgba(245,230,208,0.02)]">
+        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--cream-dim)]">
+          Size is deliberately excluded—it&apos;s a volume choice, not a taste signal. Six quiz
+          questions capture these seven dimensions; the recommender scores every drink in the menu
+          against the resulting facet state.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+const FAMILY_LABELS: Record<Drink['family'], string> = {
+  'espresso-based': 'Espresso-based',
+  brewed: 'Brewed',
+  'cold-brewed': 'Cold-brewed',
+  'tea-based': 'Tea-based',
+};
+
+const FAMILY_ORDER: Drink['family'][] = ['espresso-based', 'brewed', 'cold-brewed', 'tea-based'];
+
+function fmtStrength(s: Strength[]): string {
+  return s.length === 1 ? s[0] : `${s[0]} – ${s[s.length - 1]}`;
+}
+
+function fmtMilk(m: MilkMode): string {
+  if (m === 'black') return 'black';
+  if (m === 'milk-optional') return 'milk optional';
+  return 'dairy required';
+}
+
+function fmtTemp(t: Temperature[]): string {
+  return t.join(' · ');
+}
+
+function DrinkMatrix() {
+  const grouped = FAMILY_ORDER.map((family) => ({
+    family,
+    label: FAMILY_LABELS[family],
+    drinks: menu.filter((d) => d.family === family),
+  }));
+
+  return (
+    <div className="my-8 md:my-10 rounded-xl border border-[var(--line)] overflow-hidden">
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--line)] bg-[rgba(245,230,208,0.02)] flex items-baseline justify-between gap-4">
+        <p
+          className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--gold)]"
+          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        >
+          Drink Profiles
+        </p>
+        <p className="m-0 text-[11px] md:text-[12px] text-[var(--cream-dim)]">
+          {menu.length} drinks · {FAMILY_ORDER.length} families
+        </p>
+      </div>
+
+      {grouped.map((group, gi) => (
+        <div
+          key={group.family}
+          className={gi < grouped.length - 1 ? 'border-b border-[var(--line)]' : ''}
+        >
+          <div className="px-4 py-2 md:px-6 md:py-2.5 bg-[rgba(245,230,208,0.015)] border-b border-[var(--line)]">
+            <p
+              className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--cream-dim)]"
+              style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+            >
+              {group.label} · {group.drinks.length}
+            </p>
+          </div>
+          {group.drinks.map((drink, di) => (
+            <div
+              key={drink.id}
+              className={`px-4 py-3 md:px-6 md:py-3.5 ${
+                di < group.drinks.length - 1 ? 'border-b border-[var(--line)]' : ''
+              }`}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-1 md:gap-6">
+                <p className="m-0 text-[15px] md:text-[16px] text-[var(--cream)]">
+                  {drink.name}
+                </p>
+                <p className="m-0 text-[13px] md:text-[14px] leading-[1.5] text-[var(--cream-muted)]">
+                  <FacetChip>{fmtStrength(drink.typicalStrength)}</FacetChip>
+                  <Dot />
+                  <FacetChip>{fmtMilk(drink.milkMode)}</FacetChip>
+                  <Dot />
+                  <FacetChip>{fmtTemp(drink.temperatures)}</FacetChip>
+                  <Dot />
+                  <span className="text-[var(--cream-dim)]">
+                    {drink.compatibleFlavors.join(', ')}
+                  </span>
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+
+      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[rgba(245,230,208,0.02)] border-t border-[var(--line)]">
+        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--cream-dim)]">
+          Each drink&apos;s facet profile is the thing the recommender scores against. A user&apos;s
+          facet state from the quiz returns the closest match on strength, milk, temperature, and
+          flavor—filtered first by style family.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function FacetChip({ children }: { children: ReactNode }) {
+  return <span className="text-[var(--cream)] whitespace-nowrap">{children}</span>;
+}
+
+function Dot() {
+  return <span className="text-[var(--cream-dim)]">{' · '}</span>;
 }
 
 interface MetricRow {

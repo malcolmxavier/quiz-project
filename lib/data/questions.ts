@@ -37,7 +37,7 @@ export const questions: Question[] = [
         followUp: {
           id: 'q3-1',
           chapter: 'Flavor',
-          prompt: 'Which half of that pulls you in…',
+          prompt: 'Which half of that pulls you in?',
           answers: [
             { text: 'The bolder side',  mutations: { flavorNote: 'fruity' } },
             { text: 'The softer side',  mutations: { flavorNote: 'floral' } },
@@ -50,7 +50,7 @@ export const questions: Question[] = [
         followUp: {
           id: 'q3-2',
           chapter: 'Flavor',
-          prompt: 'Which half of that pulls you in…',
+          prompt: 'Which half of that pulls you in?',
           answers: [
             { text: 'The bolder side',  mutations: { flavorNote: 'chocolate' } },
             { text: 'The softer side',  mutations: { flavorNote: 'nutty' } },
@@ -63,7 +63,7 @@ export const questions: Question[] = [
         followUp: {
           id: 'q3-3',
           chapter: 'Flavor',
-          prompt: 'Which half of that pulls you in…',
+          prompt: 'Which half of that pulls you in?',
           answers: [
             { text: 'The bolder side',  mutations: { flavorNote: 'spicy' } },
             { text: 'The softer side',  mutations: { flavorNote: 'caramel' } },

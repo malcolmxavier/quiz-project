@@ -348,7 +348,7 @@ Post-2.2 design changes that emerged during implementation + user review.
 ### Q3 branching
 
 - Q3's first three answers each carry a two-flavor sensation (citrus+blossoms, cocoa+almonds, cinnamon+caramel). Each now branches into a follow-up question to disambiguate.
-- Follow-up prompt is **generic and pair-agnostic** — *"Which half of that pulls you in…"* — with two abstract answers (**"The bolder side"** / **"The softer side"**) that map to the specific flavor per pair.
+- Follow-up prompt is **generic and pair-agnostic** — *"Which half of that pulls you in?"* — with two abstract answers (**"The bolder side"** / **"The softer side"**) that map to the specific flavor per pair.
 - Quiz total length is dynamic: **6** main questions, or **7** if any Q3 follow-up triggers.
 - Header question counter removed to avoid visual jump when the total changes in-flight. Progress bar alone signals progress and rebalances when a follow-up is added.
 - **Chapter labels** (e.g., "Strength," "Flavor") are **not rendered** in the UI — naming the facet being probed risks oversteering the user's answer. `chapter` remains on the Question data model for internal analytics.

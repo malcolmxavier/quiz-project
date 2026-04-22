@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Quiz' },
+  { href: '/', label: 'Coffee Personality Quiz' },
   { href: '/about', label: 'About' },
   { href: '/case-study', label: 'Case Study' },
 ] as const;
@@ -19,7 +19,7 @@ export function Header() {
       <div className="flex items-start justify-between gap-6 px-7 py-5">
         <Link href="/" className="flex flex-col gap-1.5 no-underline">
           <span className="text-[20px] font-bold leading-none tracking-wide uppercase text-[var(--cream)]">
-            Basecamp
+            Basecamp Coffee
           </span>
           <span
             className="text-[15px] tracking-[0.01em] text-[var(--cream-muted)]"
