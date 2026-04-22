@@ -42,6 +42,14 @@ Visual references (the canonical design for the quiz card + result surface):
 
 Agent-facing context (for Claude Code / other AI tools working in this repo): [`CLAUDE.md`](./CLAUDE.md).
 
+## The case-study research
+
+All the research, advisor reviews, and sub-agent definitions that produced
+this prototype live in [`_case-study/`](./_case-study/) — raw inherited corpus,
+the synthesis docs, pressure-test output, and the agent configs. See
+[`_case-study/README.md`](./_case-study/README.md) for a guided tour that
+maps each folder to the beats of the deployed Case Study page.
+
 ## Coverage audit
 
 ```bash
