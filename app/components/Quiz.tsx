@@ -27,6 +27,7 @@ interface QuizProps {
  * doesn't create a visible jump in "Question X / Y" numerals.
  */
 export function Quiz({ onComplete }: QuizProps) {
+  const [started, setStarted] = useState(false);
   const [mainIndex, setMainIndex] = useState(0);
   const [followUp, setFollowUp] = useState<Question | null>(null);
   const [partial, setPartial] = useState<Partial<FacetState>>({});
@@ -74,7 +75,41 @@ export function Quiz({ onComplete }: QuizProps) {
   return (
     <>
       <SiteChrome fraction={fraction} />
-      <QuizQuestion question={currentQuestion} onAnswer={handleAnswer} />
+      {started ? (
+        <QuizQuestion question={currentQuestion} onAnswer={handleAnswer} />
+      ) : (
+        <QuizIntro onStart={() => setStarted(true)} />
+      )}
     </>
+  );
+}
+
+function QuizIntro({ onStart }: { onStart: () => void }) {
+  return (
+    <section className="mx-auto max-w-[780px] px-7 pt-10 pb-20 md:px-10 md:pt-14 md:pb-24">
+      <p
+        className="m-0 mb-3 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
+        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+      >
+        Basecamp Rewards
+      </p>
+      <h2
+        className="m-0 mb-4 font-medium text-[28px] md:text-[34px] leading-[1.1] tracking-[-0.015em] text-[var(--cream)]"
+        style={{ fontFamily: 'var(--font-fraunces), serif' }}
+      >
+        Find your Basecamp ritual.
+      </h2>
+      <p className="m-0 mb-6 text-[16px] md:text-[17px] leading-[1.5] text-[var(--cream-muted)] max-w-[620px]">
+        Answer a few questions and we&apos;ll match you to a drink from the Basecamp menu.
+        When you&apos;re done, you&apos;ll get a discount code to try it on us.
+      </p>
+      <button
+        type="button"
+        onClick={onStart}
+        className="inline-flex items-center justify-center rounded-[14px] px-6 py-3.5 text-[14px] font-semibold tracking-[0.04em] cursor-pointer border transition-all bg-[rgba(212,165,116,0.22)] border-[rgba(212,165,116,0.55)] text-[var(--cream)] hover:bg-[rgba(212,165,116,0.32)] hover:border-[var(--gold)] shadow-[0_0_32px_-12px_rgba(212,165,116,0.4)] w-full md:w-auto"
+      >
+        Take the quiz
+      </button>
+    </section>
   );
 }

@@ -2,8 +2,20 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { SiteChrome } from '../components/SiteChrome';
 import { Footer } from '../components/Footer';
+import { ArticleNav, type ArticleSection } from '../components/ArticleNav';
 import { menu } from '@/lib/data/menu';
 import type { Drink, MilkMode, Strength, Temperature } from '@/lib/types';
+
+const SECTIONS: ArticleSection[] = [
+  { id: 'intro', number: '00', title: 'Intro' },
+  { id: 'signal', number: '01', title: 'The Signal' },
+  { id: 'data', number: '02', title: 'The Data' },
+  { id: 'triangulation', number: '03', title: 'The Triangulation' },
+  { id: 'bet', number: '04', title: 'The Bet' },
+  { id: 'experiment', number: '05', title: 'The Experiment' },
+  { id: 'artifact', number: '06', title: 'The Artifact' },
+  { id: 'how-built', number: '07', title: 'How This Was Built' },
+];
 
 export const metadata = {
   title: 'Case Study · Basecamp Coffee',
@@ -15,6 +27,7 @@ export default function CaseStudyPage() {
   return (
     <>
       <SiteChrome trackScroll />
+      <ArticleNav sections={SECTIONS} />
       <main className="flex-1">
         <Hero />
         <hr className="section-divider" />
@@ -40,7 +53,7 @@ export default function CaseStudyPage() {
 // ─── Hero ────────────────────────────────────────────────────
 function Hero() {
   return (
-    <section className="mx-auto max-w-[560px] px-7 pt-9 pb-6 md:max-w-[880px] md:px-10 md:pt-14 md:pb-8 lg:max-w-[1024px]">
+    <section id="intro" className="scroll-mt-28 mx-auto max-w-[560px] px-7 pt-9 pb-6 md:max-w-[880px] md:px-10 md:pt-14 md:pb-8 lg:max-w-[1024px]">
       <div className="flex items-baseline justify-between gap-4 mb-3">
         <p
           className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
@@ -85,7 +98,7 @@ function Hero() {
 // ─── Beat 1 — The Signal ─────────────────────────────────────
 function BeatSignal() {
   return (
-    <Beat number="01" title="The Signal" claudeTag="file-tree exploration" headline="Brand healthy. Program on fire.">
+    <Beat id="signal" number="01" title="The Signal" claudeTag="file-tree exploration" headline="Brand healthy. Program on fire.">
       <Body>
         <p>
           The first data that told me what was actually broken: <Emph>Brand NPS 67, Program NPS 12</Emph>.{' '}
@@ -142,7 +155,7 @@ function BeatData() {
   ];
 
   return (
-    <Beat number="02" title="The Data" claudeTag="data synthesis" headline="Signups masking indifference.">
+    <Beat id="data" number="02" title="The Data" claudeTag="data synthesis" headline="Signups masking indifference.">
       <Body>
         <p>Six months of metric movement. Three patterns mattered.</p>
       </Body>
@@ -185,6 +198,7 @@ function BeatData() {
 function BeatTriangulation() {
   return (
     <Beat
+      id="triangulation"
       number="03"
       title="The Triangulation"
       claudeTag="multi-agent review"
@@ -252,7 +266,7 @@ function BeatTriangulation() {
 // ─── Beat 4 — The Bet ────────────────────────────────────────
 function BeatBet() {
   return (
-    <Beat number="04" title="The Bet" claudeTag="thinking partner" headline="Personality over points.">
+    <Beat id="bet" number="04" title="The Bet" claudeTag="thinking partner" headline="Personality over points.">
       <Body>
         <p>
           The mechanics couldn&apos;t change — the points structure is legally locked (accounting
@@ -290,6 +304,7 @@ function BeatBet() {
 function BeatExperiment() {
   return (
     <Beat
+      id="experiment"
       number="05"
       title="The Experiment"
       claudeTag="artifact drafting"
@@ -329,6 +344,7 @@ function BeatExperiment() {
 function BeatArtifact() {
   return (
     <Beat
+      id="artifact"
       number="06"
       title="The Artifact"
       claudeTag="claude code · build partner"
@@ -440,7 +456,7 @@ function BeatArtifact() {
 // ─── Beat 7 — How This Was Built ─────────────────────────────
 function BeatHowBuilt() {
   return (
-    <Beat number="07" title="How This Was Built" headline="The Claude Code workflow.">
+    <Beat id="how-built" number="07" title="How This Was Built" headline="The Claude Code workflow.">
       <Body>
         <p>The features I leaned on, concretely:</p>
       </Body>
@@ -496,6 +512,7 @@ function BeatHowBuilt() {
 // ─────────────────────────────────────────────────────────────
 
 interface BeatProps {
+  id: string;
   number: string;
   title: string;
   headline: string;
@@ -505,9 +522,9 @@ interface BeatProps {
   children: ReactNode;
 }
 
-function Beat({ number, title, headline, claudeTag, claudeTagLiteral, children }: BeatProps) {
+function Beat({ id, number, title, headline, claudeTag, claudeTagLiteral, children }: BeatProps) {
   return (
-    <section className="mx-auto max-w-[560px] px-7 pt-6 pb-6 md:max-w-[880px] md:px-10 md:pt-9 md:pb-9 lg:max-w-[1024px]">
+    <section id={id} className="scroll-mt-28 mx-auto max-w-[560px] px-7 pt-6 pb-6 md:max-w-[880px] md:px-10 md:pt-9 md:pb-9 lg:max-w-[1024px]">
       <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 md:gap-6 mb-5 md:mb-6">
         <p
           className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"

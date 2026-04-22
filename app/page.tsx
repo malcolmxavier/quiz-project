@@ -17,6 +17,8 @@ import { archetypeById } from '@/lib/data/archetypes';
 import { Quiz } from './components/Quiz';
 import { Result } from './components/Result';
 
+const STORAGE_KEY = 'bc:rewards:v1';
+
 export default function Home() {
   /**
    * Two-state pattern (locked in REQUIREMENTS.md lesson 2.3 feedback):
@@ -35,12 +37,50 @@ export default function Home() {
    * not new redemption events. Prevents gaming the code to poison downstream
    * redemption-accuracy analytics. See _design/REQUIREMENTS.md.
    *
-   * In a real production app, sessionCode would persist to sessionStorage
-   * so page refreshes don't mint new codes — MVP scope keeps it in-memory.
+   * Session state is persisted to `sessionStorage` so that navigating away
+   * to /about or /case-study and back lands the user on their result, not
+   * the splash. Survives refresh within the tab; cleared when the tab closes.
    */
+  const [hydrated, setHydrated] = useState(false);
   const [committedState, setCommittedState] = useState<FacetState | null>(null);
   const [draftState, setDraftState] = useState<FacetState | null>(null);
   const [sessionCode, setSessionCode] = useState<string>('');
+
+  // Hydrate from sessionStorage once on mount. Render nothing until this
+  // completes — avoids a flash of splash before the Result appears.
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { state?: FacetState; code?: string };
+        if (parsed.state) {
+          setCommittedState(parsed.state);
+          setDraftState(parsed.state);
+        }
+        if (parsed.code) setSessionCode(parsed.code);
+      }
+    } catch {
+      /* silent — corrupt or unavailable storage isn't actionable */
+    }
+    setHydrated(true);
+  }, []);
+
+  // Persist state + code whenever they change.
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      if (committedState || sessionCode) {
+        sessionStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({ state: committedState, code: sessionCode }),
+        );
+      } else {
+        sessionStorage.removeItem(STORAGE_KEY);
+      }
+    } catch {
+      /* silent */
+    }
+  }, [committedState, sessionCode, hydrated]);
 
   function handleQuizComplete(finalState: FacetState) {
     const { archetype } = recommend(finalState);
@@ -85,6 +125,8 @@ export default function Home() {
     setDraftState(state);
     setSessionCode((prev) => prev || generateSessionCode(archetype.slug));
   }, [committedState]);
+
+  if (!hydrated) return null;
 
   if (!committedState || !draftState) {
     return <Quiz onComplete={handleQuizComplete} />;
