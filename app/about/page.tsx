@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { SiteChrome } from '../components/SiteChrome';
 import { Footer } from '../components/Footer';
+import { formatLastUpdated } from '@/lib/last-updated';
 
 export const metadata = {
   title: 'About · Basecamp Coffee',
@@ -13,12 +14,20 @@ export default function AboutPage() {
       <SiteChrome />
       <div className="flex-1">
         <section className="mx-auto max-w-[560px] px-7 pt-9 pb-12 md:max-w-[880px] md:px-10 md:pt-8 md:pb-8 lg:max-w-[1024px]">
-          <p
-            className="m-0 mb-3 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
-            style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
-          >
-            About
-          </p>
+          <div className="flex items-baseline justify-between gap-4 mb-3">
+            <p
+              className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
+              style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+            >
+              About
+            </p>
+            <p
+              className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--cream-dim)]"
+              style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+            >
+              Updated {formatLastUpdated()}
+            </p>
+          </div>
           <h1 className="m-0 mb-8 md:mb-6 font-medium text-[54px] md:text-[64px] lg:text-[72px] leading-none tracking-[-0.035em] text-[var(--cream)]">
             Malcolm Xavier
           </h1>

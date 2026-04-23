@@ -5,6 +5,7 @@ import { Footer } from '../components/Footer';
 import { ArticleNav, type ArticleSection } from '../components/ArticleNav';
 import { menu } from '@/lib/data/menu';
 import { computeCoverage } from '@/lib/coverage';
+import { formatLastUpdated } from '@/lib/last-updated';
 import type { Drink, MilkMode, Strength, Temperature } from '@/lib/types';
 
 // Computed at render time on the server — coverage is deterministic and
@@ -71,7 +72,7 @@ function Hero() {
           className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--cream-dim)]"
           style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
         >
-          10 min read
+          10 min read · Updated {formatLastUpdated()}
         </p>
       </div>
       <h1 className="m-0 mb-3 md:mb-4 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--cream)]">
