@@ -4,6 +4,7 @@ import { SiteChrome } from '../components/SiteChrome';
 import { Footer } from '../components/Footer';
 import { ArticleNav, type ArticleSection } from '../components/ArticleNav';
 import { menu } from '@/lib/data/menu';
+import { archetypeById } from '@/lib/data/archetypes';
 import { computeCoverage } from '@/lib/coverage';
 import { formatLastUpdated } from '@/lib/last-updated';
 import type { Drink, MilkMode, Strength, Temperature } from '@/lib/types';
@@ -765,10 +766,10 @@ function DrinkMatrix() {
           className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--gold)]"
           style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
         >
-          Drink Profiles &amp; Coverage
+          Drinks, Archetypes &amp; Coverage
         </p>
         <p className="m-0 text-[11px] md:text-[12px] text-[var(--cream-dim)]">
-          {menu.length} drinks · {FAMILY_ORDER.length} families · {COVERAGE.totalPaths.toLocaleString()} quiz paths
+          {menu.length} drinks · 16 archetypes · {COVERAGE.totalPaths.toLocaleString()} quiz paths
         </p>
       </div>
 
@@ -787,6 +788,7 @@ function DrinkMatrix() {
           </div>
           {group.drinks.map((drink, di) => {
             const share = SHARE_BY_DRINK_ID.get(drink.id) ?? 0;
+            const archetype = archetypeById(drink.id);
             return (
               <div
                 key={drink.id}
@@ -794,9 +796,20 @@ function DrinkMatrix() {
                   di < group.drinks.length - 1 ? 'border-b border-[var(--line)]' : ''
                 }`}
               >
-                <div className="grid grid-cols-[1fr_auto] md:grid-cols-[160px_1fr_auto] gap-x-3 md:gap-x-6 items-baseline">
+                <div className="grid grid-cols-[1fr_auto] md:grid-cols-[240px_1fr_auto] gap-x-3 md:gap-x-6 items-baseline">
                   <p className="m-0 text-[15px] md:text-[16px] text-[var(--cream)]">
                     {drink.name}
+                    {archetype && (
+                      <>
+                        <span className="mx-[0.45em] text-[var(--cream-dim)]">·</span>
+                        <span
+                          className="text-[14px] md:text-[15px] text-[var(--cream-muted)]"
+                          style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
+                        >
+                          {archetype.name}
+                        </span>
+                      </>
+                    )}
                   </p>
                   <p
                     className="col-start-2 row-start-1 md:col-start-3 md:row-start-1 m-0 text-[11px] md:text-[12px] tracking-[0.04em] tabular-nums whitespace-nowrap text-right text-[var(--gold-bright)]"
@@ -827,9 +840,11 @@ function DrinkMatrix() {
         <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--cream-dim)]">
           Each drink&apos;s facet profile is the thing the recommender scores against. A user&apos;s
           facet state from the quiz returns the closest match on strength, milk, temperature, and
-          flavor—filtered first by style family. The percentage shows each drink&apos;s share of
-          the {COVERAGE.totalPaths.toLocaleString()}{' '}distinct quiz answer paths—a coverage
-          audit, not a forecast (real users don&apos;t pick answers uniformly at random).
+          flavor—filtered first by style family. Every drink maps 1-to-1 to an archetype (shown in italic
+          next to each drink), so the recommender returns an identity and an order at the same time. The
+          percentage shows each drink&apos;s share of the {COVERAGE.totalPaths.toLocaleString()}{' '}
+          distinct quiz answer paths—a coverage audit, not a forecast (real users don&apos;t pick
+          answers uniformly at random).
         </p>
       </div>
     </div>
