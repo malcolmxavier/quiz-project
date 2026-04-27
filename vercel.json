@@ -1,9 +1,0 @@
-{
-  "redirects": [
-    {
-      "source": "/case-study",
-      "destination": "https://malxavi.com/case-studies/basecamp-coffee",
-      "permanent": true
-    }
-  ]
-}
